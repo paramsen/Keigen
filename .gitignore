@@ -1,0 +1,11 @@
+*.iml
+.gradle
+/local.properties
+.idea/
+.DS_Store
+/build
+/captures
+.externalNativeBuild
+/library/src/main/native/kissfft
+/*.apk
+keigen/.cxx/

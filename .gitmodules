@@ -1,0 +1,3 @@
+[submodule "keigen/src/main/native/Eigen"]
+	path = keigen/src/main/native/Eigen
+	url = git@github.com:eigenteam/eigen-git-mirror.git

@@ -1,6 +1,6 @@
 # Keigen
 
-_A FFT computation library for Android_
+_A matrix and linear algebra library for Android_
 
 Keigen is an Kotlin wrapper for Eigen, a linear algebra library written in C++.
 

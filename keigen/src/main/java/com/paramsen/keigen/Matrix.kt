@@ -51,6 +51,11 @@ class Matrix(val rows: Int, val cols: Int) {
     // /,
     // /=
 
+    operator fun get(row: Int, col: Int) {
+        throwIfOutsideBounds(row, col)
+        KeigenNativeBridge.get(nativePointer, row, col)
+    }
+
     //swap underlying data
 
     //other operations (v2+)
@@ -63,6 +68,6 @@ class Matrix(val rows: Int, val cols: Int) {
     }
 
     private fun throwIfNullPointer() = check(nativePointer != NULL_PTR) { "nativePointer is null" }
-
     private fun throwIfDimensionNotEqual(m: Matrix) = check(rows == m.rows && cols == m.cols) { "dimensions cannot differ (this: [$rows, $cols], other: [${m.rows}, ${m.cols}])" }
+    private fun throwIfOutsideBounds(row: Int, col: Int) = check(row > rows || col > cols) { "outside bounds access (access [$row, $col], bounds [${rows}, ${cols}])" }
 }

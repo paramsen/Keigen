@@ -12,6 +12,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val m = Matrix(3,3,2f)
-        println("=== ${m[3, 3]}")
+        println("=== ${m[2, 2]}")
+        m.dispose()
     }
 }

@@ -11,17 +11,26 @@ extern "C" {
 JNIEXPORT jlong JNICALL
 Java_com_paramsen_keigen_KeigenNativeBridge_initialize(JNIEnv *env, jclass jThis, jint rows,
                                                        jint cols, jfloat fill) {
-    float *b = new float[rows * cols];
+    auto *b = new float[rows * cols];
+
+    //TODO find put where std::fill reside and use it
     for (int i = 0; i < rows * cols; i++) {
         b[i] = fill;
     }
-    Map<Matrix<float, Dynamic, Dynamic>> *a = new Map<Matrix<float, Dynamic, Dynamic>>(b, rows, cols);
-    __android_log_print(ANDROID_LOG_DEBUG, "NATIVE", "%.2f", a->operator()(0, 0));
-    return reinterpret_cast<jlong>(a);
+
+    return reinterpret_cast<jlong>(new Map<Matrix<float, Dynamic, Dynamic>>(b, rows, cols));
 }
 
 JNIEXPORT float JNICALL
 Java_com_paramsen_keigen_KeigenNativeBridge_get(JNIEnv *env, jclass jThis, jlong pointer, jint row, jint col) {
     return ((Map<Matrix<float, Dynamic, Dynamic>> *) pointer)->operator()(row, col);
+}
+
+JNIEXPORT void JNICALL
+Java_com_paramsen_keigen_KeigenNativeBridge_dispose(JNIEnv *env, jclass jThis, jlong pointer, jint row, jint col) {
+    auto m = ((Map<Matrix<float, Dynamic, Dynamic>> *) pointer);
+    float *data = &(*m)(0);
+    delete (m);
+    delete(data);
 }
 }

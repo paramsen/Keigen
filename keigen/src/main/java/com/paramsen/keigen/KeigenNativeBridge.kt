@@ -12,4 +12,5 @@ object KeigenNativeBridge {
     external fun matrixPlus(nativePointerA: Long, nativePointerB: Long): Long
     external fun matrixPlusAssign(nativePointerA: Long, nativePointerB: Long)
     external fun get(nativePointer: Long, row: Int, col: Int): Float
+    external fun dispose(nativePointer: Long)
 }

@@ -13,6 +13,7 @@ class Matrix(val rows: Int, val cols: Int) {
         nativePointer = KeigenNativeBridge.initialize(rows, cols, fill)
     }
 
+    //init from raw data
     constructor(rows: Int, cols: Int, data: Array<Float>, offset: Int = 0, strideCol: Int = 1, strideRow: Int = cols) : this(rows, cols) {
         //validate that supplied data has enough elements
     }
@@ -31,6 +32,7 @@ class Matrix(val rows: Int, val cols: Int) {
 
     // +=,
     operator fun plusAssign(m: Matrix) {
+        TODO("Not yet implemented")
         throwIfNullPointer()
         throwIfDimensNotEqual(m)
         KeigenNativeBridge.matrixPlusAssign(nativePointer, m.nativePointer)
@@ -58,15 +60,14 @@ class Matrix(val rows: Int, val cols: Int) {
     // /,
     // /=
 
+    //get index
     operator fun get(row: Int, col: Int): Float {
         throwIfOutsideBounds(row, col)
         return KeigenNativeBridge.get(nativePointer, row, col)
     }
-
+    //get raw data
     //swap underlying data
-
     //other operations (v2+)
-
     //equals and hash
 
     fun dispose() {

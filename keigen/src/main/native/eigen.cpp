@@ -7,10 +7,11 @@ using Eigen::Dynamic;
 using Eigen::Map;
 using Eigen::Matrix;
 
+typedef Map<Matrix<float, Dynamic, Dynamic>> FloatMatrix;
+
 extern "C" {
 JNIEXPORT jlong JNICALL
-Java_com_paramsen_keigen_KeigenNativeBridge_initialize(JNIEnv *env, jclass jThis, jint rows,
-                                                       jint cols, jfloat fill) {
+Java_com_paramsen_keigen_KeigenNativeBridge_initialize(JNIEnv *env, jclass jThis, jint rows, jint cols, jfloat fill) {
     auto *data = new float[rows * cols];
 
     //TODO find put where std::fill reside and use it
@@ -18,14 +19,15 @@ Java_com_paramsen_keigen_KeigenNativeBridge_initialize(JNIEnv *env, jclass jThis
         data[i] = fill;
     }
 
-    return reinterpret_cast<jlong>(new Map<Matrix<float, Dynamic, Dynamic>>(data, rows, cols));
+    return reinterpret_cast<jlong>(new FloatMatrix(data, rows, cols));
 }
+
 JNIEXPORT jlong JNICALL
 Java_com_paramsen_keigen_KeigenNativeBridge_matrixPlus(JNIEnv *env, jclass jThis, jlong pointerA, jlong pointerB) {
-    auto a = *((Map<Matrix<float, Dynamic, Dynamic>> *) pointerA);
-    auto b = *((Map<Matrix<float, Dynamic, Dynamic>> *) pointerB);
+    auto a = *((FloatMatrix *) pointerA);
+    auto b = *((FloatMatrix *) pointerB);
     auto data = new float[(a.rows()) * (a.cols())]{0.0F};
-    auto c = new Map<Matrix<float, Dynamic, Dynamic>>(data, a.rows(), a.cols());
+    auto c = new FloatMatrix(data, a.rows(), a.cols());
     c->noalias() = a + b;
 
     return reinterpret_cast<jlong>(c);
@@ -33,12 +35,12 @@ Java_com_paramsen_keigen_KeigenNativeBridge_matrixPlus(JNIEnv *env, jclass jThis
 
 JNIEXPORT float JNICALL
 Java_com_paramsen_keigen_KeigenNativeBridge_get(JNIEnv *env, jclass jThis, jlong pointer, jint row, jint col) {
-    return (*((Map<Matrix<float, Dynamic, Dynamic>> *) pointer))(row, col);
+    return (*((FloatMatrix *) pointer))(row, col);
 }
 
 JNIEXPORT void JNICALL
 Java_com_paramsen_keigen_KeigenNativeBridge_dispose(JNIEnv *env, jclass jThis, jlong pointer, jint row, jint col) {
-    auto m = ((Map<Matrix<float, Dynamic, Dynamic>> *) pointer);
+    auto m = ((FloatMatrix *) pointer);
     float *data = &(*m)(0);
     delete (m);
     delete(data);

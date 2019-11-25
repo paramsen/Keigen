@@ -23,5 +23,9 @@ target_compile_definitions(eigen PRIVATE
         # only complie resources with permissive licensing
         EIGEN_MPL2_ONLY=1)
 
+if(NOT debug)
+    target_compile_definitions(eigen PRIVATE EIGEN_NO_DEBUG=1)
+endif()
+
 target_link_libraries(eigen
         log)

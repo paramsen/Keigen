@@ -45,7 +45,6 @@ class Matrix(val rows: Int, val cols: Int) {
         throwIfInvalidMultiplicationDimens(m)
         return Matrix(rows, m.cols, KeigenNativeBridge.matrixMul(nativePointer, m.nativePointer))
     }
-
     // *=,
     // /,
     // /=

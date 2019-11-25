@@ -26,10 +26,20 @@ JNIEXPORT jlong JNICALL
 Java_com_paramsen_keigen_KeigenNativeBridge_matrixPlus(JNIEnv *env, jclass jThis, jlong pointerA, jlong pointerB) {
     auto a = *((FloatMatrix *) pointerA);
     auto b = *((FloatMatrix *) pointerB);
-    auto data = new float[(a.rows()) * (a.cols())]{0.0F};
+    auto data = new float[(a.rows()) * (a.cols())]{0};
     auto c = new FloatMatrix(data, a.rows(), a.cols());
-    c->noalias() = a + b;
+    *c = a + b;
 
+    return reinterpret_cast<jlong>(c);
+}
+
+JNIEXPORT jlong JNICALL
+Java_com_paramsen_keigen_KeigenNativeBridge_matrixMul(JNIEnv *env, jclass jThis, jlong pointerA, jlong pointerB) {
+    auto a = *((FloatMatrix *) pointerA);
+    auto b = *((FloatMatrix *) pointerB);
+    auto data = new float[(a.rows()) * (b.cols())]{0};
+    auto c = new FloatMatrix(data, a.rows(), b.cols());
+    *c = a * b; //a temp var might be introduced here (?) https://eigen.tuxfamily.org/dox/group__TopicAliasing.html
     return reinterpret_cast<jlong>(c);
 }
 

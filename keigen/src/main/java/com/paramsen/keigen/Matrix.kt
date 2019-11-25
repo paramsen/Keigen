@@ -25,19 +25,25 @@ class Matrix(val rows: Int, val cols: Int) {
     // +,
     operator fun plus(m: Matrix): Matrix {
         throwIfNullPointer()
-        throwIfDimensionNotEqual(m)
+        throwIfDimensNotEqual(m)
         return Matrix(rows, cols, KeigenNativeBridge.matrixPlus(nativePointer, m.nativePointer))
     }
 
     // +=,
     operator fun plusAssign(m: Matrix) {
         throwIfNullPointer()
-        throwIfDimensionNotEqual(m)
+        throwIfDimensNotEqual(m)
         KeigenNativeBridge.matrixPlusAssign(nativePointer, m.nativePointer)
     }
     // -,
     // -=,
     // *,
+    operator fun times(m: Matrix): Matrix {
+        throwIfNullPointer()
+        throwIfInvalidMultiplicationDimens(m)
+        return Matrix(rows, m.cols, KeigenNativeBridge.matrixMul(nativePointer, m.nativePointer))
+    }
+
     // *=,
     // /,
     // /=
@@ -70,6 +76,7 @@ class Matrix(val rows: Int, val cols: Int) {
     }
 
     private fun throwIfNullPointer() = check(nativePointer != NULL_PTR) { "nativePointer is null" }
-    private fun throwIfDimensionNotEqual(m: Matrix) = check(rows == m.rows && cols == m.cols) { "dimensions cannot differ (this: [$rows, $cols], other: [${m.rows}, ${m.cols}])" }
-    private fun throwIfOutsideBounds(row: Int, col: Int) = check(row < rows && col < cols) { "outside bounds access (access [$row, $col], bounds [${rows}, ${cols}])" }
+    private fun throwIfDimensNotEqual(m: Matrix) = check(rows == m.rows && cols == m.cols) { "dimensions must equal (this: [$rows, $cols], other: [${m.rows}, ${m.cols}])" }
+    private fun throwIfOutsideBounds(row: Int, col: Int) = check(row < rows && col < cols) { "index overflow (access [$row, $col], bounds [${rows}, ${cols}])" }
+    private fun throwIfInvalidMultiplicationDimens(m: Matrix) = check(cols == m.rows) { "cols must equal rows ($cols, ${m.rows})" }
 }

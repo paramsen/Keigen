@@ -11,10 +11,10 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val m = Matrix(3,3,2.5f)
-        val m1 = Matrix(3,3,2f)
-        val m2 = m + m1
-        println("=== ${m2[2, 2]}, ${m.nativePointer}, ${m1.nativePointer}, ${m2.nativePointer}")
+        val m = Matrix(5, 4, 2.5f)
+        val m1 = Matrix(4, 2, 2f)
+        val m2 = m * m1
+        println("=== ${m2[4, 1]}, ${m.nativePointer}, ${m1.nativePointer}, ${m2.nativePointer}")
         m.dispose()
         m1.dispose()
         m2.dispose()

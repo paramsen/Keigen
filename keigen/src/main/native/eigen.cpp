@@ -33,8 +33,15 @@ Java_com_paramsen_keigen_KeigenNativeBridge_matrixPlus(JNIEnv *env, jclass jThis
     return reinterpret_cast<jlong>(c);
 }
 
+JNIEXPORT void JNICALL
+Java_com_paramsen_keigen_KeigenNativeBridge_matrixPlusAssign(JNIEnv *env, jclass jThis, jlong pointerA, jlong pointerB) {
+    auto a = (FloatMatrix *) pointerA;
+    auto b = (FloatMatrix *) pointerB;
+    *a = ((*a) + (*b)).eval();
+}
+
 JNIEXPORT jlong JNICALL
-Java_com_paramsen_keigen_KeigenNativeBridge_matrixMul(JNIEnv *env, jclass jThis, jlong pointerA, jlong pointerB) {
+Java_com_paramsen_keigen_KeigenNativeBridge_matrixTimes(JNIEnv *env, jclass jThis, jlong pointerA, jlong pointerB) {
     auto a = *((FloatMatrix *) pointerA);
     auto b = *((FloatMatrix *) pointerB);
     auto data = new float[(a.rows()) * (b.cols())]{0};
@@ -43,9 +50,21 @@ Java_com_paramsen_keigen_KeigenNativeBridge_matrixMul(JNIEnv *env, jclass jThis,
     return reinterpret_cast<jlong>(c);
 }
 
+JNIEXPORT void JNICALL
+Java_com_paramsen_keigen_KeigenNativeBridge_matrixTimesAssignRequireSquare(JNIEnv *env, jclass jThis, jlong pointerA, jlong pointerB) {
+    auto a = (FloatMatrix *) pointerA;
+    auto b = (FloatMatrix *) pointerB;
+    *a = (*a) * (*b);
+}
+
 JNIEXPORT float JNICALL
 Java_com_paramsen_keigen_KeigenNativeBridge_get(JNIEnv *env, jclass jThis, jlong pointer, jint row, jint col) {
     return (*((FloatMatrix *) pointer))(row, col);
+}
+
+JNIEXPORT void JNICALL
+Java_com_paramsen_keigen_KeigenNativeBridge_set(JNIEnv *env, jclass jThis, jlong pointer, jint row, jint col, jfloat value) {
+    (*((FloatMatrix *) pointer))(row, col) = value;
 }
 
 JNIEXPORT void JNICALL

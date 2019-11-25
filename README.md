@@ -2,6 +2,8 @@
 
 _A matrix and linear algebra library for Android_
 
+![Keygen artwork](https://raw.githubusercontent.com/paramsen/Keigen/master/keigen_small.png)
+
 Keigen is an Kotlin wrapper for Eigen, a linear algebra library written in C++.
 
 Keigen is still just on the drawing table, and might stay there for all eternity. If so, one can

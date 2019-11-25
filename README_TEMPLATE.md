@@ -1,6 +1,6 @@
 # Keigen
 
-_A matrix and linear algebra library for Android_
+_Keigen is a Kotlin (Android) library for fast matrix operations and linear algebra built on a C++ foundation._
 
 ![Keygen artwork](https://raw.githubusercontent.com/paramsen/Keigen/master/artwork.png)
 

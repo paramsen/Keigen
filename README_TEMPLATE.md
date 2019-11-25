@@ -14,4 +14,4 @@ at least find how to setup Eigen on Android by looking in the /keigen sources :)
 The artwork combines the scholar owl in the Eigen artwork and the Kotlin logo colors. In Keigen,
 the owl has obviously found a new cool style, heavily inspired by The Matrix - not to be confused
 with _a_ matrix.  
-_The artwork was made by me._
+_The artwork is made by me._

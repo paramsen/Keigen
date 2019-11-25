@@ -24,8 +24,8 @@ JNIEXPORT jlong JNICALL
 Java_com_paramsen_keigen_KeigenNativeBridge_matrixPlus(JNIEnv *env, jclass jThis, jlong pointerA, jlong pointerB) {
     auto a = *((Map<Matrix<float, Dynamic, Dynamic>> *) pointerA);
     auto b = *((Map<Matrix<float, Dynamic, Dynamic>> *) pointerB);
-    auto data = new float[((int) a.rows()) * ((int) a.cols())]{0.0F};
-    auto c = new Map<Matrix<float, Dynamic, Dynamic>>(data, (int) a.rows(), (int) a.cols());
+    auto data = new float[(a.rows()) * (a.cols())]{0.0F};
+    auto c = new Map<Matrix<float, Dynamic, Dynamic>>(data, a.rows(), a.cols());
     c->noalias() = a + b;
 
     return reinterpret_cast<jlong>(c);
@@ -33,7 +33,7 @@ Java_com_paramsen_keigen_KeigenNativeBridge_matrixPlus(JNIEnv *env, jclass jThis
 
 JNIEXPORT float JNICALL
 Java_com_paramsen_keigen_KeigenNativeBridge_get(JNIEnv *env, jclass jThis, jlong pointer, jint row, jint col) {
-    return ((Map<Matrix<float, Dynamic, Dynamic>> *) pointer)->operator()(row, col);
+    return (*((Map<Matrix<float, Dynamic, Dynamic>> *) pointer))(row, col);
 }
 
 JNIEXPORT void JNICALL

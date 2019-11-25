@@ -6,7 +6,8 @@ private const val NULL_PTR = 0L
  * @author Pär Amsen 11/2019
  */
 class Matrix(val rows: Int, val cols: Int) {
-    private var nativePointer = NULL_PTR
+    var nativePointer = NULL_PTR
+        private set
 
     constructor(rows: Int, cols: Int, fill: Float = 0f): this(rows, cols) {
         nativePointer = KeigenNativeBridge.initialize(rows, cols, fill)
@@ -22,14 +23,14 @@ class Matrix(val rows: Int, val cols: Int) {
 
     //matrix operations:
     // +,
-    operator fun Matrix.plus(m: Matrix): Matrix {
+    operator fun plus(m: Matrix): Matrix {
         throwIfNullPointer()
         throwIfDimensionNotEqual(m)
         return Matrix(rows, cols, KeigenNativeBridge.matrixPlus(nativePointer, m.nativePointer))
     }
 
     // +=,
-    operator fun Matrix.plusAssign(m: Matrix) {
+    operator fun plusAssign(m: Matrix) {
         throwIfNullPointer()
         throwIfDimensionNotEqual(m)
         KeigenNativeBridge.matrixPlusAssign(nativePointer, m.nativePointer)

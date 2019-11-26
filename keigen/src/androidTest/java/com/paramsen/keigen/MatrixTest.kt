@@ -111,6 +111,56 @@ class MatrixTest {
         assertEquals(5f, x[1, 2])
     }
 
+    @Test
+    fun initFill() {
+        Matrix(1, 1)
+    }
+
+    @Test
+    fun initWithDataContinuous() {
+        val data = FloatArray(9) { it.toFloat() }
+        val m = Matrix(3, 3, data)
+
+        //assert all values
+        for (i in 0 until 3) {
+            for (j in 0 until 3) {
+                assertEquals(3f * i + j, m[i, j])
+            }
+        }
+    }
+
+    @Test
+    fun initWithDataAndPlus() {
+        val data = floatArrayOf(0f, 1f, 2f, 3f)
+        val x = Matrix(2, 2, data)
+        val y = Matrix(2, 2, data)
+        val z = x + y
+
+        assertEquals(0f, z[0, 0])
+        assertEquals(2f, z[0, 1])
+        assertEquals(4f, z[1, 0])
+        assertEquals(6f, z[1, 1])
+    }
+
+    @Test
+    fun initWithDataAndTimes() {
+        val data = floatArrayOf(0f, 1f, 2f, 3f)
+        val x = Matrix(2, 2, data)
+        val y = Matrix(2, 2, data)
+        val z = x * y
+
+        assertEquals(2f, z[0, 0])
+        assertEquals(3f, z[0, 1])
+        assertEquals(6f, z[1, 0])
+        assertEquals(11f, z[1, 1])
+    }
+
+    @Test
+    fun dispose() {
+        val m = Matrix(2, 2)
+        m.dispose()
+        assertEquals(Matrix.NULL_PTR, m.nativePointer)
+    }
     // === === === HELPERS === === ===
 
     fun assertOutOfPlaceOperation(x: Matrix, y: Matrix, result: Matrix) {

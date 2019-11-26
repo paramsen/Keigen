@@ -3,15 +3,18 @@
 #include <android/log.h>
 #include <algorithm>
 
+using Eigen::Stride;
 using Eigen::Dynamic;
 using Eigen::Map;
 using Eigen::Matrix;
 
-typedef Map<Matrix<float, Dynamic, Dynamic>> FloatMatrix;
+#define debugLog(...) __android_log_print(ANDROID_LOG_DEBUG, "NATIVE", __VA_ARGS__);
+typedef Map<Matrix<float, Dynamic, Dynamic>, 0, Eigen::Stride<Dynamic, Dynamic>> FloatMatrix;
+
 
 extern "C" {
 JNIEXPORT jlong JNICALL
-Java_com_paramsen_keigen_KeigenNativeBridge_initialize(JNIEnv *env, jclass jThis, jint rows, jint cols, jfloat fill) {
+Java_com_paramsen_keigen_KeigenNativeBridge_initializeFill(JNIEnv *env, jclass jThis, jint rows, jint cols, jfloat fill) {
     auto *data = new float[rows * cols];
 
     //TODO find put where std::fill reside and use it
@@ -19,7 +22,16 @@ Java_com_paramsen_keigen_KeigenNativeBridge_initialize(JNIEnv *env, jclass jThis
         data[i] = fill;
     }
 
-    return reinterpret_cast<jlong>(new FloatMatrix(data, rows, cols));
+    return reinterpret_cast<jlong>(new FloatMatrix(data, rows, cols, Eigen::Stride<Dynamic, Dynamic>(1, cols)));
+}
+
+JNIEXPORT jlong JNICALL
+Java_com_paramsen_keigen_KeigenNativeBridge_initializeWithData(JNIEnv *env, jclass jThis, jint rows, jint cols, jfloatArray jData, jint outerStride, jint innerStride) {
+    float *rawData = env->GetFloatArrayElements(jData, nullptr);
+    float *data = new float[rows * cols];
+    memcpy(data, rawData, sizeof(float) * rows * cols);
+
+    return reinterpret_cast<jlong>(new FloatMatrix(data, rows, cols, Eigen::Stride<Dynamic, Dynamic>(outerStride, innerStride)));
 }
 
 JNIEXPORT jlong JNICALL
@@ -27,8 +39,15 @@ Java_com_paramsen_keigen_KeigenNativeBridge_matrixPlus(JNIEnv *env, jclass jThis
     auto a = *((FloatMatrix *) pointerA);
     auto b = *((FloatMatrix *) pointerB);
     auto data = new float[(a.rows()) * (a.cols())]{0};
-    auto c = new FloatMatrix(data, a.rows(), a.cols());
+    auto c = new FloatMatrix(data, a.rows(), a.cols(), Eigen::Stride<Dynamic, Dynamic>(1, a.cols()));
     *c = a + b;
+
+    for (int i = 0; i < 2; ++i) {
+        for (int j = 0; j < 2; ++j) {
+            debugLog("=== %f", (*c)(i, j));
+        }
+    }
+
 
     return reinterpret_cast<jlong>(c);
 }
@@ -45,7 +64,7 @@ Java_com_paramsen_keigen_KeigenNativeBridge_matrixTimes(JNIEnv *env, jclass jThi
     auto a = *((FloatMatrix *) pointerA);
     auto b = *((FloatMatrix *) pointerB);
     auto data = new float[(a.rows()) * (b.cols())]{0};
-    auto c = new FloatMatrix(data, a.rows(), b.cols());
+    auto c = new FloatMatrix(data, a.rows(), b.cols(), Eigen::Stride<Dynamic, Dynamic>(1, b.cols()));
     *c = a * b; //a temp var might be introduced here (?) https://eigen.tuxfamily.org/dox/group__TopicAliasing.html
     return reinterpret_cast<jlong>(c);
 }
@@ -70,8 +89,8 @@ Java_com_paramsen_keigen_KeigenNativeBridge_set(JNIEnv *env, jclass jThis, jlong
 JNIEXPORT void JNICALL
 Java_com_paramsen_keigen_KeigenNativeBridge_dispose(JNIEnv *env, jclass jThis, jlong pointer, jint row, jint col) {
     auto m = ((FloatMatrix *) pointer);
-    float *data = &(*m)(0);
+    float *data = &(*m)(0, 0);
     delete (m);
-    delete(data);
+    delete (data);
 }
 }

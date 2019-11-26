@@ -1,16 +1,13 @@
 package com.paramsen.keigen
 
-private const val NULL_PTR = 0L
-
 /**
  * @author Pär Amsen 11/2019
  */
 class Matrix(var rows: Int, var cols: Int, var nativePointer: Long) {
-    constructor(rows: Int, cols: Int, fill: Float = 0f): this(rows, cols, KeigenNativeBridge.initialize(rows, cols, fill))
-
-    //init from raw data
-    constructor(rows: Int, cols: Int, data: Array<Float>, offset: Int = 0, strideCol: Int = 1, strideRow: Int = cols) : this(rows, cols, NULL_PTR) {
-        //validate that supplied data has enough elements
+    constructor(rows: Int, cols: Int, fill: Float = 0f): this(rows, cols, KeigenNativeBridge.initializeFill(rows, cols, fill))
+    constructor(rows: Int, cols: Int, data: FloatArray, outerStride: Int = 1, innerStride: Int = cols) : this(rows, cols, NULL_PTR) {
+        //TODO validate that supplied data has enough elements etc
+        nativePointer = KeigenNativeBridge.initializeWithData(rows, cols, data, outerStride, innerStride)
     }
 
     //matrix operations:
@@ -87,4 +84,8 @@ class Matrix(var rows: Int, var cols: Int, var nativePointer: Long) {
     private fun throwIfDimensNotEqual(m: Matrix) = check(rows == m.rows && cols == m.cols) { "dimensions must equal (this: [$rows, $cols], other: [${m.rows}, ${m.cols}])" }
     private fun throwIfOutsideBounds(row: Int, col: Int) = check(row < rows && col < cols) { "index overflow (access [$row, $col], bounds [${rows}, ${cols}])" }
     private fun throwIfInvalidMultiplicationDimens(m: Matrix) = check(cols == m.rows) { "cols must equal rows ($cols, ${m.rows})" }
+
+    companion object {
+        const val NULL_PTR = 0L
+    }
 }

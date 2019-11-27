@@ -1,7 +1,6 @@
 package com.paramsen.keigen
 
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertNotEquals
+import org.junit.Assert.*
 import org.junit.Test
 
 /**
@@ -113,7 +112,13 @@ class MatrixTest {
 
     @Test
     fun initFill() {
-        Matrix(1, 1)
+        val fill = 2.5f
+        val m = Matrix(2, 2, fill)
+
+        assertEquals(fill, m[0, 0])
+        assertEquals(fill, m[0, 1])
+        assertEquals(fill, m[1, 0])
+        assertEquals(fill, m[1, 1])
     }
 
     @Test
@@ -153,6 +158,39 @@ class MatrixTest {
         assertEquals(3f, z[0, 1])
         assertEquals(6f, z[1, 0])
         assertEquals(11f, z[1, 1])
+    }
+
+    @Test
+    fun getArray() {
+        val rows = 2
+        val cols = 4
+        val inData = FloatArray(rows * cols) { it.toFloat() }
+        val x = Matrix(rows, cols, inData)
+        val outData = x.getArray()
+
+        assertTrue(inData.contentEquals(outData))
+    }
+
+    @Test
+    fun getArray4x1024() {
+        val rows = 4
+        val cols = 1024
+        val inData = FloatArray(rows * cols) { it.toFloat() }
+        val x = Matrix(rows, cols, inData)
+        val outData = x.getArray()
+
+        assertTrue(inData.contentEquals(outData))
+    }
+
+    @Test
+    fun setArray() {
+        val x = Matrix(2, 2, -1f)
+        x.setArray(floatArrayOf(0f,1f,2f,3f))
+
+        assertEquals(0f, x[0, 0])
+        assertEquals(1f, x[0, 1])
+        assertEquals(2f, x[1, 0])
+        assertEquals(3f, x[1, 1])
     }
 
     @Test

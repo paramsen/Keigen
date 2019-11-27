@@ -19,6 +19,8 @@ object KeigenNativeBridge {
 
     external fun get(nativePointer: Long, row: Int, col: Int): Float
     external fun set(nativePointer: Long, row: Int, col: Int, value: Float)
+    external fun getArray(nativePointer: Long, dst: FloatArray)
+    external fun setArray(nativePointer: Long, src: FloatArray)
 
     external fun dispose(nativePointer: Long)
 }

@@ -6,8 +6,10 @@ _Keigen is a Kotlin (Android) library for fast matrix operations and linear alge
 
 Keigen is an Kotlin wrapper for Eigen, a linear algebra library written in C++.
 
-Keigen is still just on the drawing table, and might stay there for all eternity. If so, one can
-at least find how to setup Eigen on Android by looking in the /keigen sources :)
+Keigen is still just on the drawing table, and might stay there for all eternity. Despite that, the
+Matrix class is supporting all normal matrix-to-matrix and matrix-to-scalar operations. All
+arithmetic operators are covered (+, -, *, /), get by square brackets [row, col], set by square
+brackets, transpose, raw data array get/set etc. 
 
 ### Artwork
 

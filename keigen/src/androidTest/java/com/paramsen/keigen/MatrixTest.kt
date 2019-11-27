@@ -4,7 +4,7 @@ import org.junit.Assert.*
 import org.junit.Test
 
 /**
- * Unit tests for each operation. Must run on the Android platform due to the NDK stuff being
+ * Unit tests for each operation. Must run on the Android platform due to the NDK layer being
  * compiled with the Android toolchains.
  *
  * @author Pär Amsen 11/2019

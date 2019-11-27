@@ -23,6 +23,16 @@ Java_com_paramsen_keigen_KeigenNativeBridge_matrixPlusAssign(JNIEnv *env, jclass
 }
 
 JNIEXPORT jlong JNICALL
+Java_com_paramsen_keigen_KeigenNativeBridge_matrixMinus(JNIEnv *env, jclass jThis, jlong pointerA, jlong pointerB) {
+    return reinterpret_cast<jlong>(Keigen::matrixMinus<float>(pointerA, pointerB));
+}
+
+JNIEXPORT void JNICALL
+Java_com_paramsen_keigen_KeigenNativeBridge_matrixMinusAssign(JNIEnv *env, jclass jThis, jlong pointerA, jlong pointerB) {
+    Keigen::matrixMinusAssign<float>(pointerA, pointerB);
+}
+
+JNIEXPORT jlong JNICALL
 Java_com_paramsen_keigen_KeigenNativeBridge_matrixTimes(JNIEnv *env, jclass jThis, jlong pointerA, jlong pointerB) {
     return reinterpret_cast<jlong>(Keigen::matrixTimes<float>(pointerA, pointerB));
 }
@@ -30,6 +40,36 @@ Java_com_paramsen_keigen_KeigenNativeBridge_matrixTimes(JNIEnv *env, jclass jThi
 JNIEXPORT void JNICALL
 Java_com_paramsen_keigen_KeigenNativeBridge_matrixTimesAssignRequireSquare(JNIEnv *env, jclass jThis, jlong pointerA, jlong pointerB) {
     Keigen::matrixTimesAssignRequireSquare<float>(pointerA, pointerB);
+}
+
+JNIEXPORT void JNICALL
+Java_com_paramsen_keigen_KeigenNativeBridge_matrixTimesIntoDst(JNIEnv *env, jclass jThis, jlong pointerA, jlong pointerB, jlong pointerC) {
+    Keigen::matrixTimesIntoDst<float>(pointerA, pointerB, pointerC);
+}
+
+JNIEXPORT jlong JNICALL
+Java_com_paramsen_keigen_KeigenNativeBridge_matrixTimesScalar(JNIEnv *env, jclass jThis, jlong pointerA, jfloat scalar) {
+    return reinterpret_cast<jlong>(Keigen::matrixTimesScalar<float>(pointerA, scalar));
+}
+
+JNIEXPORT void JNICALL
+Java_com_paramsen_keigen_KeigenNativeBridge_matrixTimesAssignScalar(JNIEnv *env, jclass jThis, jlong pointerA, jfloat scalar) {
+    Keigen::matrixTimesAssignScalar<float>(pointerA, scalar);
+}
+
+JNIEXPORT jlong JNICALL
+Java_com_paramsen_keigen_KeigenNativeBridge_matrixDivScalar(JNIEnv *env, jclass jThis, jlong pointerA, jfloat scalar) {
+    return reinterpret_cast<jlong>(Keigen::matrixDivScalar<float>(pointerA, scalar));
+}
+
+JNIEXPORT void JNICALL
+Java_com_paramsen_keigen_KeigenNativeBridge_matrixDivAssignScalar(JNIEnv *env, jclass jThis, jlong pointerA, jfloat scalar) {
+    Keigen::matrixDivAssignScalar<float>(pointerA, scalar);
+}
+
+JNIEXPORT jlong JNICALL
+Java_com_paramsen_keigen_KeigenNativeBridge_matrixTranspose(JNIEnv *env, jclass jThis, jlong pointer) {
+    return reinterpret_cast<jlong>(Keigen::matrixTranspose<float>(pointer));
 }
 
 JNIEXPORT float JNICALL

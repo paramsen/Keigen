@@ -62,6 +62,24 @@ namespace Keigen {
     }
 
     template<typename Scalar>
+    Matrix<Scalar> *matrixMinus(jlong pointerA, jlong pointerB) {
+        auto a = *((Matrix<Scalar> *) pointerA);
+        auto b = *((Matrix<Scalar> *) pointerB);
+        auto data = new float[(a.rows()) * (a.cols())]{0};
+        auto c = new Matrix<Scalar>(data, a.rows(), a.cols(), Stride(1, a.cols()));
+        *c = a - b;
+
+        return c;
+    }
+
+    template<typename Scalar>
+    void matrixMinusAssign(jlong pointerA, jlong pointerB) {
+        auto a = (Matrix<Scalar> *) pointerA;
+        auto b = (Matrix<Scalar> *) pointerB;
+        *a = ((*a) - (*b)).eval();
+    }
+
+    template<typename Scalar>
     Matrix<Scalar> *matrixTimes(jlong pointerA, jlong pointerB) {
         auto a = *((Matrix<Scalar> *) pointerA);
         auto b = *((Matrix<Scalar> *) pointerB);
@@ -76,6 +94,56 @@ namespace Keigen {
         auto a = (Matrix<Scalar> *) pointerA;
         auto b = (Matrix<Scalar> *) pointerB;
         *a = (*a) * (*b);
+    }
+
+    template<typename Scalar>
+    void matrixTimesIntoDst(jlong pointerA, jlong pointerB, jlong pointerC) {
+        auto a = *((Matrix<Scalar> *) pointerA);
+        auto b = *((Matrix<Scalar> *) pointerB);
+        auto c = *((Matrix<Scalar> *) pointerC);
+        c.noalias() = a * b; //disable aliasing
+    }
+
+    template<typename Scalar>
+    Matrix<Scalar> *matrixTimesScalar(jlong pointerA, Scalar scalar) {
+        auto a = *((Matrix<Scalar> *) pointerA);
+        auto data = new float[(a.rows()) * (a.cols())]{0};
+        auto c = new Matrix<Scalar>(data, a.rows(), a.cols(), Stride(1, a.cols()));
+        *c = a * scalar;
+
+        return c;
+    }
+
+    template<typename Scalar>
+    void matrixTimesAssignScalar(jlong pointerA, Scalar scalar) {
+        auto a = *((Matrix<Scalar> *) pointerA);
+        a = a * scalar;
+    }
+
+    template<typename Scalar>
+    Matrix<Scalar> *matrixDivScalar(jlong pointerA, Scalar scalar) {
+        auto a = *((Matrix<Scalar> *) pointerA);
+        auto data = new float[(a.rows()) * (a.cols())]{0};
+        auto c = new Matrix<Scalar>(data, a.rows(), a.cols(), Stride(1, a.cols()));
+        *c = a / scalar;
+
+        return c;
+    }
+
+    template<typename Scalar>
+    void matrixDivAssignScalar(jlong pointerA, Scalar scalar) {
+        auto a = *((Matrix<Scalar> *) pointerA);
+        a = a / scalar;
+    }
+
+    template<typename Scalar>
+    Matrix<Scalar> *matrixTranspose(jlong pointer) {
+        auto src = *((Matrix<Scalar> *) pointer);
+        auto data = new float[(src.rows()) * (src.cols())]{0};
+        auto dst = new Matrix<Scalar>(data, src.cols(), src.rows(), Stride(1, src.rows()));
+        *dst = src.transpose();
+
+        return dst;
     }
 
     template<typename Scalar>

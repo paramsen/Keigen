@@ -13,35 +13,42 @@ class Matrix(@IntRange(from = 1) var rows: Int, @IntRange(from = 1) var cols: In
         throwIfStrideOutsideBounds(data.size, outerStride, innerStride)
         nativePointer = KeigenNativeBridge.initializeWithData(rows, cols, data, outerStride, innerStride)
     }
-    //matrix operations:
-    // +,
+
     operator fun plus(m: Matrix): Matrix {
         throwIfNullPointer()
         throwIfDimensNotEqual(m)
         return Matrix(rows, cols, KeigenNativeBridge.matrixPlus(nativePointer, m.nativePointer))
     }
 
-    // +=,
     operator fun plusAssign(m: Matrix) {
         throwIfNullPointer()
         throwIfDimensNotEqual(m)
         KeigenNativeBridge.matrixPlusAssign(nativePointer, m.nativePointer)
     }
-    // -,
+
     operator fun minus(m: Matrix): Matrix {
-        TODO("impl")
+        throwIfNullPointer()
+        throwIfDimensNotEqual(m)
+        return Matrix(rows, cols, KeigenNativeBridge.matrixMinus(nativePointer, m.nativePointer))
     }
-    // -=,
+
     operator fun minusAssign(m: Matrix) {
-        TODO("impl")
+        throwIfNullPointer()
+        throwIfDimensNotEqual(m)
+        KeigenNativeBridge.matrixMinusAssign(nativePointer, m.nativePointer)
     }
-    // *,
+
     operator fun times(m: Matrix): Matrix {
         throwIfNullPointer()
         throwIfInvalidMultiplicationDimens(m)
         return Matrix(rows, m.cols, KeigenNativeBridge.matrixTimes(nativePointer, m.nativePointer))
     }
-    // *=,
+
+    /**
+     * When rows==cols this operation is performed in place. Else a new native Matrix is allocated
+     * to fit the result, and the old one freed. For use in a loop or similar, it might be better
+     * to use Matrix.multiplyIntoDst.
+     */
     operator fun timesAssign(m: Matrix) {
         throwIfNullPointer()
         throwIfInvalidMultiplicationDimens(m)
@@ -54,57 +61,55 @@ class Matrix(@IntRange(from = 1) var rows: Int, @IntRange(from = 1) var cols: In
             cols = m.cols
         }
     }
-    // /,
-    operator fun div(m: Matrix): Matrix {
-        TODO("impl")
-    }
-    // /=
-    operator fun divAssign(m: Matrix) {
-        TODO("impl")
+
+    /**
+     * The result of (this * multiplyBy) is stored in (dst). No new allocations will be made to fit
+     * the result into the dst Matrix.
+     */
+    fun multiplyIntoDst(multiplyBy: Matrix, dst: Matrix) {
+        check(dst.rows == rows && dst.cols == multiplyBy.cols) { "result must fit into dst (dst size (${dst.rows}x${dst.cols}) does not match (${rows}x${multiplyBy.cols}))" }
+        KeigenNativeBridge.matrixTimesIntoDst(nativePointer, multiplyBy.nativePointer, dst.nativePointer)
     }
 
-    //scalar operations:
-    // +,
-    operator fun plus(scalar: Float): Matrix {
-        TODO("impl")
-    }
-    // +=,
-    operator fun plusAssign(scalar: Float) {
-        TODO("impl")
-    }
-    // -,
-    operator fun minus(scalar: Float): Matrix {
-        TODO("impl")
-    }
-    // -=,
-    operator fun minusAssign(scalar: Float) {
-        TODO("impl")
-    }
-    // *,
     operator fun times(scalar: Float): Matrix {
-        TODO("impl")
-    }
-    // *=,
-    operator fun timesAssign(scalar: Float) {
-        TODO("impl")
-    }
-    // /,
-    operator fun div(scalar: Float): Matrix {
-        TODO("impl")
-    }
-    // /=
-    operator fun divAssign(scalar: Float) {
-        TODO("impl")
+        return Matrix(rows, cols, KeigenNativeBridge.matrixTimesScalar(nativePointer, scalar))
     }
 
-    //get index
+    operator fun timesAssign(scalar: Float) {
+        KeigenNativeBridge.matrixTimesAssignScalar(nativePointer, scalar)
+    }
+
+    operator fun div(scalar: Float): Matrix {
+        return Matrix(rows, cols, KeigenNativeBridge.matrixDivScalar(nativePointer, scalar))
+    }
+
+    operator fun divAssign(scalar: Float) {
+        KeigenNativeBridge.matrixDivAssignScalar(nativePointer, scalar)
+    }
+
+    fun transpose() = Matrix(cols, rows, KeigenNativeBridge.matrixTranspose(nativePointer))
+
+    /**
+     * This actually creates a new native Matrix due to restrictions in Eigen (which are
+     * probably solvable in the C++ layer to actually re-use the same data allocation). The old
+     * native Matrix is disposed, and the new assigned to this Kotlin Matrix.
+     */
+    fun transposeInPlace() {
+        val newNativePointer = KeigenNativeBridge.matrixTranspose(nativePointer)
+        KeigenNativeBridge.dispose(nativePointer)
+        nativePointer = newNativePointer
+        val oldRows = rows
+        val oldCols = cols
+        rows = oldCols
+        cols = oldRows
+    }
+
     operator fun get(row: Int, col: Int): Float {
         throwIfNullPointer()
         throwIfOutsideBounds(row, col)
         return KeigenNativeBridge.get(nativePointer, row, col)
     }
-    //get raw data
-    //set index
+
     operator fun set(row: Int, col: Int, value: Float) {
         throwIfNullPointer()
         throwIfOutsideBounds(row, col)
@@ -124,9 +129,9 @@ class Matrix(@IntRange(from = 1) var rows: Int, @IntRange(from = 1) var cols: In
         KeigenNativeBridge.setArray(nativePointer, src)
     }
 
-    //swap underlying data
-    //other operations (v2+)
-    //equals and hash
+    //TODO swap underlying data
+    //TODO other operations (v2+)
+    //TODO equals and hash
 
     fun dispose() {
         if(nativePointer == NULL_PTR) return

@@ -10,7 +10,7 @@ endif()
 
 add_library(eigen
         SHARED
-        eigen.cpp)
+        FloatMatrix.cpp)
 
 target_include_directories(eigen
         PRIVATE

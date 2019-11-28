@@ -13,8 +13,8 @@ import org.junit.Test
 class MatrixTest {
     @Test
     fun plus() {
-        val x = Matrix(2, 2, 1f)
-        val y = Matrix(2, 2, 2.5f)
+        val x = FloatMatrix(2, 2, 1f)
+        val y = FloatMatrix(2, 2, 2.5f)
 
         val z = x + y
 
@@ -24,9 +24,9 @@ class MatrixTest {
 
     @Test
     fun plusAssign() {
-        val x = Matrix(2, 2, 1f)
+        val x = FloatMatrix(2, 2, 1f)
         val xPointer = x.nativePointer
-        val y = Matrix(2, 2, 2f)
+        val y = FloatMatrix(2, 2, 2f)
         val yPointer = y.nativePointer
 
         x += y
@@ -39,16 +39,16 @@ class MatrixTest {
 
     @Test
     fun plusThrowIfWrongDimens() {
-        val x = Matrix(3, 2)
-        val y = Matrix(4, 5)
+        val x = FloatMatrix(3, 2)
+        val y = FloatMatrix(4, 5)
 
         assertShouldThrow { x + y }
         assertShouldThrow { x += y }
     }
     @Test
     fun minus() {
-        val x = Matrix(2, 2, 1f)
-        val y = Matrix(2, 2, 2.5f)
+        val x = FloatMatrix(2, 2, 1f)
+        val y = FloatMatrix(2, 2, 2.5f)
 
         val z = x - y
 
@@ -58,9 +58,9 @@ class MatrixTest {
 
     @Test
     fun minusAssign() {
-        val x = Matrix(2, 2, 1f)
+        val x = FloatMatrix(2, 2, 1f)
         val xPointer = x.nativePointer
-        val y = Matrix(2, 2, 2f)
+        val y = FloatMatrix(2, 2, 2f)
         val yPointer = y.nativePointer
 
         x -= y
@@ -73,8 +73,8 @@ class MatrixTest {
 
     @Test
     fun times() {
-        val x = Matrix(2, 4, 1f)
-        val y = Matrix(4, 3, 2f)
+        val x = FloatMatrix(2, 4, 1f)
+        val y = FloatMatrix(4, 3, 2f)
 
         val z = x * y
 
@@ -88,9 +88,9 @@ class MatrixTest {
      */
     @Test
     fun timesAssignOutOfPlace() {
-        val x = Matrix(2, 4, 1f)
+        val x = FloatMatrix(2, 4, 1f)
         val xPointer = x.nativePointer
-        val y = Matrix(4, 3, 2f)
+        val y = FloatMatrix(4, 3, 2f)
         val yPointer = y.nativePointer
 
         x *= y
@@ -104,9 +104,9 @@ class MatrixTest {
     /** Where rows and cols are equal, the product fit at the same native address safely. */
     @Test
     fun timesAssignInPlace() {
-        val x = Matrix(4, 4, 1f)
+        val x = FloatMatrix(4, 4, 1f)
         val xPointer = x.nativePointer
-        val y = Matrix(4, 4, 2f)
+        val y = FloatMatrix(4, 4, 2f)
         val yPointer = y.nativePointer
 
         x *= y
@@ -119,11 +119,11 @@ class MatrixTest {
 
     @Test
     fun multiplyIntoDst() {
-        val x = Matrix(2, 4, 1f)
+        val x = FloatMatrix(2, 4, 1f)
         val xPointer = x.nativePointer
-        val y = Matrix(4, 2, 2f)
+        val y = FloatMatrix(4, 2, 2f)
         val yPointer = y.nativePointer
-        val z = Matrix(2, 2, 0f)
+        val z = FloatMatrix(2, 2, 0f)
         val zPointer = z.nativePointer
 
         x.multiplyIntoDst(y, z)
@@ -137,7 +137,7 @@ class MatrixTest {
 
     @Test
     fun timesScalar() {
-        val x = Matrix(2, 2, 2f)
+        val x = FloatMatrix(2, 2, 2f)
 
         val y = x * 2f
 
@@ -148,7 +148,7 @@ class MatrixTest {
 
     @Test
     fun timesAssignScalar() {
-        val x = Matrix(2, 2, 2f)
+        val x = FloatMatrix(2, 2, 2f)
         val xPointer = x.nativePointer
 
         x *= 2f
@@ -160,7 +160,7 @@ class MatrixTest {
 
     @Test
     fun divScalar() {
-        val x = Matrix(2, 2, 5f)
+        val x = FloatMatrix(2, 2, 5f)
 
         val y = x / 2f
 
@@ -171,7 +171,7 @@ class MatrixTest {
 
     @Test
     fun divAssignScalar() {
-        val x = Matrix(2, 2, 5f)
+        val x = FloatMatrix(2, 2, 5f)
         val xPointer = x.nativePointer
 
         x /= 2f
@@ -184,7 +184,7 @@ class MatrixTest {
     @Test
     fun transpose() {
         val data = floatArrayOf(0f, 1f, 2f, 3f, 4f, 5f)
-        val x = Matrix(2, 3, data)
+        val x = FloatMatrix(2, 3, data)
 
         val y = x.transpose()
 
@@ -195,19 +195,19 @@ class MatrixTest {
     @Test
     fun transposeInPlace() {
         val data = floatArrayOf(0f, 1f, 2f, 3f, 4f, 5f)
-        val x = Matrix(2, 3, data)
+        val x = FloatMatrix(2, 3, data)
         val xPointer = x.nativePointer
-        val y = Matrix(2, 3, data)
+        val y = FloatMatrix(2, 3, data)
 
         x.transposeInPlace()
 
         forRowCol(y) { i, j -> assertEquals(y[i, j], x[j, i]) }
-        assertOutOfPlaceOperation(xPointer, x) //see Matrix.transposeInPlace doc
+        assertOutOfPlaceOperation(xPointer, x) //see FloatMatrix.transposeInPlace doc
     }
 
     @Test
     fun get() {
-        val x = Matrix(4, 4, 1.5f)
+        val x = FloatMatrix(4, 4, 1.5f)
         for (i in 0 until 4) {
             for (j in 0 until 4) {
                 assertEquals(1.5f, x[i, j])
@@ -217,7 +217,7 @@ class MatrixTest {
 
     @Test
     fun set() {
-        val x = Matrix(4, 4)
+        val x = FloatMatrix(4, 4)
         x[0, 0] = 2f
         x[1, 2] = 5f
 
@@ -228,7 +228,7 @@ class MatrixTest {
     @Test
     fun initFill() {
         val fill = 2.5f
-        val m = Matrix(2, 2, fill)
+        val m = FloatMatrix(2, 2, fill)
 
         forRowCol(m) { i, j -> assertEquals(fill, m[i, j])}
     }
@@ -236,7 +236,7 @@ class MatrixTest {
     @Test
     fun initWithDataContinuous() {
         val data = FloatArray(9) { it.toFloat() }
-        val m = Matrix(3, 3, data)
+        val m = FloatMatrix(3, 3, data)
 
         forRowCol(m) { i, j -> assertEquals(3f * i + j, m[i, j]) }
     }
@@ -244,8 +244,8 @@ class MatrixTest {
     @Test
     fun initWithDataAndPlus() {
         val data = floatArrayOf(0f, 1f, 2f, 3f)
-        val x = Matrix(2, 2, data)
-        val y = Matrix(2, 2, data)
+        val x = FloatMatrix(2, 2, data)
+        val y = FloatMatrix(2, 2, data)
         val z = x + y
 
         assertEquals(0f, z[0, 0])
@@ -257,8 +257,8 @@ class MatrixTest {
     @Test
     fun initWithDataAndMultiply() {
         val data = floatArrayOf(0f, 1f, 2f, 3f)
-        val x = Matrix(2, 2, data)
-        val y = Matrix(2, 2, data)
+        val x = FloatMatrix(2, 2, data)
+        val y = FloatMatrix(2, 2, data)
         val z = x * y
 
         assertEquals(2f, z[0, 0])
@@ -272,7 +272,7 @@ class MatrixTest {
         val rows = 2
         val cols = 4
         val inData = FloatArray(rows * cols) { it.toFloat() }
-        val x = Matrix(rows, cols, inData)
+        val x = FloatMatrix(rows, cols, inData)
         val outData = x.getArray()
 
         assertTrue(inData.contentEquals(outData))
@@ -283,7 +283,7 @@ class MatrixTest {
         val rows = 4
         val cols = 1024
         val inData = FloatArray(rows * cols) { it.toFloat() }
-        val x = Matrix(rows, cols, inData)
+        val x = FloatMatrix(rows, cols, inData)
         val outData = x.getArray()
 
         assertTrue(inData.contentEquals(outData))
@@ -291,7 +291,7 @@ class MatrixTest {
 
     @Test
     fun setArray() {
-        val x = Matrix(2, 2, -1f)
+        val x = FloatMatrix(2, 2, -1f)
         x.setArray(floatArrayOf(0f, 1f, 2f, 3f))
 
         assertEquals(0f, x[0, 0])
@@ -302,26 +302,26 @@ class MatrixTest {
 
     @Test
     fun dispose() {
-        val m = Matrix(2, 2)
+        val m = FloatMatrix(2, 2)
         m.dispose()
-        assertEquals(Matrix.NULL_PTR, m.nativePointer)
+        assertEquals(FloatMatrix.NativePointer.nullPtr(), m.nativePointer)
     }
     // === === === HELPERS === === ===
 
-    fun forRowCol(m: Matrix, forEach: (Int, Int) -> Unit) {
+    fun forRowCol(m: FloatMatrix, forEach: (Int, Int) -> Unit) {
         for (i in 0 until m.rows)
             for (j in 0 until m.rows)
                 forEach(i, j)
     }
 
-    fun assertOutOfPlaceOperation(x: Matrix, y: Matrix, result: Matrix) {
+    fun assertOutOfPlaceOperation(x: FloatMatrix, y: FloatMatrix, result: FloatMatrix) {
         assertNotEquals(x.nativePointer, result.nativePointer)
         assertNotEquals(y.nativePointer, result.nativePointer)
     }
 
-    fun assertOutOfPlaceOperation(pointer: Long, m: Matrix) = assertNotEquals(pointer, m.nativePointer)
-    fun assertOutOfPlaceOperation(x: Matrix, y: Matrix) = assertNotEquals(x.nativePointer, y.nativePointer)
-    fun assertInPlaceOperation(pointer: Long, m: Matrix) = assertEquals(pointer, m.nativePointer)
+    fun assertOutOfPlaceOperation(pointer: FloatMatrix.NativePointer, m: FloatMatrix) = assertNotEquals(pointer, m.nativePointer)
+    fun assertOutOfPlaceOperation(x: FloatMatrix, y: FloatMatrix) = assertNotEquals(x.nativePointer, y.nativePointer)
+    fun assertInPlaceOperation(pointer: FloatMatrix.NativePointer, m: FloatMatrix) = assertEquals(pointer, m.nativePointer)
 
     fun assertShouldThrow(block: () -> Unit) = try {
         block()

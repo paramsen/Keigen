@@ -1,6 +1,7 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'idea'
 
 group = 'com.github.paramsen'
 
@@ -26,6 +27,9 @@ android {
             }
         }
     }
+
+    sourceSets.main.java.srcDir "build/generated/source/keigen/main/com/paramsen/keigen/"
+
     buildTypes {
         release {
             minifyEnabled false
@@ -34,7 +38,7 @@ android {
     }
     externalNativeBuild {
         cmake {
-            path "src/main/native/CMakeLists.txt"
+            path "CMakeLists.txt"
         }
     }
 
@@ -47,6 +51,99 @@ android {
         androidTestImplementation 'androidx.test:rules:1.2.0'
         androidTestImplementation 'org.hamcrest:hamcrest-library:1.3'
         androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    }
+
+    sourceSets.main.java.srcDir new File("keigen/build/generated/source/keigen/main/")
+
+    task testGen {
+        def input = new File("keigen/src/main/java/com/paramsen/keigen/FloatMatrix.kt")
+
+        def outDir = new File("keigen/build/generated/source/keigen/main/com/paramsen/keigen/")
+        outDir.mkdirs()
+
+        def output = new File(outDir, "LongMatrix.kt")
+        output.createNewFile()
+
+        def reader = new DataInputStream(new BufferedInputStream(new FileInputStream(input))).newReader()
+        def builder = new StringBuilder()
+        def next
+
+        while ((next = reader.readLine()) != null) {
+            builder.append(next).append("\n")
+        }
+
+        def base = builder.toString()
+        base = base.replace("Float", "Long")
+        base = base.replace("toFloat", "toLong")
+
+        def writer = new DataOutputStream(new BufferedOutputStream(new FileOutputStream(output))).newWriter()
+
+        writer.write(base)
+        writer.flush()
+
+        println "Generated"
+    }
+
+    task testGen1 {
+        def input = new File("keigen/src/main/java/com/paramsen/keigen/KeigenNativeBridgeFloat.kt")
+
+        def outDir = new File("keigen/build/generated/source/keigen/main/com/paramsen/keigen/")
+        outDir.mkdirs()
+        def output = new File(outDir, "KeigenNativeBridgeLong.kt")
+        output.createNewFile()
+
+        def reader = new DataInputStream(new BufferedInputStream(new FileInputStream(input))).newReader()
+        def builder = new StringBuilder()
+        def next
+
+        while ((next = reader.readLine()) != null) {
+            builder.append(next).append("\n")
+        }
+
+        def base = builder.toString()
+        base = base.replace("KeigenNativeBridgeFloat", "KeigenNativeBridgeFloat")
+        base = base.replace("Float", "Long")
+
+        def writer = new DataOutputStream(new BufferedOutputStream(new FileOutputStream(output))).newWriter()
+
+        writer.write(base)
+        writer.flush()
+
+        println "Generated 1"
+    }
+
+    task testGen2 {
+        def input = new File("keigen/src/main/native/FloatMatrix.cpp")
+        def outDir = new File("keigen/build/generated/source/keigen/main/native")
+        outDir.mkdirs()
+        def output = new File(outDir, "LongMatrix.cpp")
+        output.createNewFile()
+
+        def reader = new DataInputStream(new BufferedInputStream(new FileInputStream(input))).newReader()
+        def builder = new StringBuilder()
+        def next
+
+        while ((next = reader.readLine()) != null) {
+            builder.append(next).append("\n")
+        }
+
+        def base = builder.toString()
+        base = base.replace("Float", "Long")
+        base = base.replace("float", "long")
+
+        def writer = new DataOutputStream(new BufferedOutputStream(new FileOutputStream(output))).newWriter()
+
+        writer.write(base)
+        writer.flush()
+
+        println "Generated 2"
+    }
+
+    idea {
+        module {
+            generatedSourceDirs += files('build/generated/source/keigen/main/')
+            sourceDirs += files('build/generated/source/keigen/main/')
+        }
     }
 
     /* verify that kissfft is initialized */

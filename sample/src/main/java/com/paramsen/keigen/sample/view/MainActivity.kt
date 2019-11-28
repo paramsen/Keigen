@@ -2,7 +2,6 @@ package com.paramsen.keigen.sample.view
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.paramsen.keigen.Matrix
 import com.paramsen.keigen.sample.R
 
 class MainActivity : AppCompatActivity() {

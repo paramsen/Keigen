@@ -3,11 +3,7 @@ package com.paramsen.keigen
 /**
  * @author Pär Amsen 11/2019
  */
-object KeigenNativeBridge {
-    init {
-        System.loadLibrary("eigen")
-    }
-
+object KeigenNativeBridgeFloat {
     external fun initializeFill(rows: Int, cols: Int, fill: Float): Long
     external fun initializeWithData(rows: Int, cols: Int, fill: FloatArray, outerStride: Int, innerStride: Int): Long
 
@@ -33,6 +29,4 @@ object KeigenNativeBridge {
     external fun set(nativePointer: Long, row: Int, col: Int, value: Float)
     external fun getArray(nativePointer: Long, dst: FloatArray)
     external fun setArray(nativePointer: Long, src: FloatArray)
-
-    external fun dispose(nativePointer: Long)
 }

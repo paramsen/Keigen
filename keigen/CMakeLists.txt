@@ -8,15 +8,19 @@ else()
     set(debug 0)
 endif()
 
-add_library(eigen
+add_library(keigen
         SHARED
-        FloatMatrix.cpp)
+        src/main/native/FloatMatrix.cpp
+        src/main/native/Shared.cpp
+#        build/generated/source/keigen/main/native/LongMatrix.cpp
+        )
 
-target_include_directories(eigen
+target_include_directories(keigen
         PRIVATE
-        Eigen/Eigen)
+        src/main/native/
+        src/main/native/Eigen/Eigen)
 
-target_compile_definitions(eigen PRIVATE
+target_compile_definitions(keigen PRIVATE
         DEBUG=${debug}
         # Limit to C++11 support
         EIGEN_MAX_CPP_VER=11
@@ -24,8 +28,8 @@ target_compile_definitions(eigen PRIVATE
         EIGEN_MPL2_ONLY=1)
 
 if(NOT debug)
-    target_compile_definitions(eigen PRIVATE EIGEN_NO_DEBUG=1)
+    target_compile_definitions(keigen PRIVATE EIGEN_NO_DEBUG=1)
 endif()
 
-target_link_libraries(eigen
+target_link_libraries(keigen
         log)

@@ -33,13 +33,7 @@ namespace Keigen {
 
     template<typename Scalar>
     Matrix<Scalar> *
-    initializeWithData(JNIEnv *env, jint rows, jint cols, jfloatArray jData, jint outerStride,
-                       jint innerStride) {
-        float *rawData = env->GetFloatArrayElements(jData, nullptr);
-        float *data = new float[rows * cols];
-        memcpy(data, rawData, sizeof(float) * rows * cols);
-        env->ReleaseFloatArrayElements(jData, rawData, 0);
-
+    initializeWithData(JNIEnv *env, jint rows, jint cols, Scalar *data, jint outerStride, jint innerStride) {
         return new Matrix<Scalar>(data, rows, cols, Stride(outerStride, innerStride));
     }
 

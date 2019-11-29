@@ -18,7 +18,7 @@ class FloatMatrixTest {
 
         val z = x + y
 
-        assertEquals(z[0, 0], 3.toFloat())
+        assertEqualsOverride(z[0, 0], 3.toFloat())
         assertOutOfPlaceOperation(x, y, z)
     }
 
@@ -31,8 +31,8 @@ class FloatMatrixTest {
 
         x += y
 
-        assertEquals(x[0, 0], 3.toFloat())
-        assertEquals(y[0, 0], 2.toFloat())
+        assertEqualsOverride(x[0, 0], 3.toFloat())
+        assertEqualsOverride(y[0, 0], 2.toFloat())
         assertInPlaceOperation(xPointer, x)
         assertInPlaceOperation(yPointer, y)
     }
@@ -52,7 +52,7 @@ class FloatMatrixTest {
 
         val z = x - y
 
-        forRowCol(z) { i, j -> assertEquals((-1).toFloat(), z[i, j])}
+        forRowCol(z) { i, j -> assertEqualsOverride((-1).toFloat(), z[i, j])}
         assertOutOfPlaceOperation(x, y, z)
     }
 
@@ -65,7 +65,7 @@ class FloatMatrixTest {
 
         x -= y
 
-        forRowCol(x) { i, j -> assertEquals((-1).toFloat(), x[i, j])}
+        forRowCol(x) { i, j -> assertEqualsOverride((-1).toFloat(), x[i, j])}
 
         assertInPlaceOperation(xPointer, x)
         assertInPlaceOperation(yPointer, y)
@@ -78,7 +78,7 @@ class FloatMatrixTest {
 
         val z = x * y
 
-        forRowCol(z) { i, j -> assertEquals(z[i, j], 8.toFloat())}
+        forRowCol(z) { i, j -> assertEqualsOverride(z[i, j], 8.toFloat())}
         assertOutOfPlaceOperation(x, y, z)
     }
 
@@ -95,7 +95,7 @@ class FloatMatrixTest {
 
         x *= y
 
-        forRowCol(x) { i, j -> assertEquals(x[i, j], 8.toFloat())}
+        forRowCol(x) { i, j -> assertEqualsOverride(x[i, j], 8.toFloat())}
 
         assertOutOfPlaceOperation(xPointer, x)
         assertInPlaceOperation(yPointer, y)
@@ -111,7 +111,7 @@ class FloatMatrixTest {
 
         x *= y
 
-        forRowCol(x) { i, j -> assertEquals(x[i, j], 8.toFloat()) }
+        forRowCol(x) { i, j -> assertEqualsOverride(x[i, j], 8.toFloat()) }
 
         assertInPlaceOperation(xPointer, x)
         assertInPlaceOperation(yPointer, y)
@@ -128,7 +128,7 @@ class FloatMatrixTest {
 
         x.multiplyIntoDst(y, z)
 
-        forRowCol(z) { i, j -> assertEquals(z[i, j], 8.toFloat()) }
+        forRowCol(z) { i, j -> assertEqualsOverride(z[i, j], 8.toFloat()) }
 
         assertInPlaceOperation(xPointer, x)
         assertInPlaceOperation(yPointer, y)
@@ -141,7 +141,7 @@ class FloatMatrixTest {
 
         val y = x * 2.toFloat()
 
-        forRowCol(y) { i, j -> assertEquals(y[i, j], 4.toFloat()) }
+        forRowCol(y) { i, j -> assertEqualsOverride(y[i, j], 4.toFloat()) }
 
         assertOutOfPlaceOperation(x, y)
     }
@@ -153,7 +153,7 @@ class FloatMatrixTest {
 
         x *= 2.toFloat()
 
-        forRowCol(x) { i, j -> assertEquals(x[i, j], 4.toFloat()) }
+        forRowCol(x) { i, j -> assertEqualsOverride(x[i, j], 4.toFloat()) }
 
         assertInPlaceOperation(xPointer, x)
     }
@@ -164,7 +164,7 @@ class FloatMatrixTest {
 
         val y = x / 2.toFloat()
 
-        forRowCol(y) { i, j -> assertEquals(y[i, j], 2.toFloat()) }
+        forRowCol(y) { i, j -> assertEqualsOverride(y[i, j], 2.toFloat()) }
 
         assertOutOfPlaceOperation(x, y)
     }
@@ -176,7 +176,7 @@ class FloatMatrixTest {
 
         x /= 2.toFloat()
 
-        forRowCol(x) { i, j -> assertEquals(x[i, j], 2.toFloat()) }
+        forRowCol(x) { i, j -> assertEqualsOverride(x[i, j], 2.toFloat()) }
 
         assertInPlaceOperation(xPointer, x)
     }
@@ -188,7 +188,7 @@ class FloatMatrixTest {
 
         val y = x.transpose()
 
-        forRowCol(x) { i, j -> assertEquals(x[i, j], y[j, i]) }
+        forRowCol(x) { i, j -> assertEqualsOverride(x[i, j], y[j, i]) }
         assertOutOfPlaceOperation(x, y)
     }
 
@@ -201,7 +201,7 @@ class FloatMatrixTest {
 
         x.transposeInPlace()
 
-        forRowCol(y) { i, j -> assertEquals(y[i, j], x[j, i]) }
+        forRowCol(y) { i, j -> assertEqualsOverride(y[i, j], x[j, i]) }
         assertOutOfPlaceOperation(xPointer, x) //see FloatMatrix.transposeInPlace doc
     }
 
@@ -210,7 +210,7 @@ class FloatMatrixTest {
         val x = FloatMatrix(4, 4, 1.toFloat())
         for (i in 0 until 4) {
             for (j in 0 until 4) {
-                assertEquals(1.toFloat(), x[i, j])
+                assertEqualsOverride(1.toFloat(), x[i, j])
             }
         }
     }
@@ -221,8 +221,8 @@ class FloatMatrixTest {
         x[0, 0] = 2.toFloat()
         x[1, 2] = 5.toFloat()
 
-        assertEquals(2.toFloat(), x[0, 0])
-        assertEquals(5.toFloat(), x[1, 2])
+        assertEqualsOverride(2.toFloat(), x[0, 0])
+        assertEqualsOverride(5.toFloat(), x[1, 2])
     }
 
     @Test
@@ -230,7 +230,7 @@ class FloatMatrixTest {
         val fill = 2.toFloat()
         val m = FloatMatrix(2, 2, fill)
 
-        forRowCol(m) { i, j -> assertEquals(fill, m[i, j])}
+        forRowCol(m) { i, j -> assertEqualsOverride(fill, m[i, j])}
     }
 
     @Test
@@ -238,7 +238,7 @@ class FloatMatrixTest {
         val data = FloatArray(9) { it.toFloat() }
         val m = FloatMatrix(3, 3, data)
 
-        forRowCol(m) { i, j -> assertEquals(3.toFloat() * i + j, m[i, j]) }
+        forRowCol(m) { i, j -> assertEqualsOverride((3 * i + j).toFloat(), m[i, j]) }
     }
 
     @Test
@@ -248,10 +248,10 @@ class FloatMatrixTest {
         val y = FloatMatrix(2, 2, data)
         val z = x + y
 
-        assertEquals(0.toFloat(), z[0, 0])
-        assertEquals(2.toFloat(), z[0, 1])
-        assertEquals(4.toFloat(), z[1, 0])
-        assertEquals(6.toFloat(), z[1, 1])
+        assertEqualsOverride(0.toFloat(), z[0, 0])
+        assertEqualsOverride(2.toFloat(), z[0, 1])
+        assertEqualsOverride(4.toFloat(), z[1, 0])
+        assertEqualsOverride(6.toFloat(), z[1, 1])
     }
 
     @Test
@@ -261,10 +261,10 @@ class FloatMatrixTest {
         val y = FloatMatrix(2, 2, data)
         val z = x * y
 
-        assertEquals(2.toFloat(), z[0, 0])
-        assertEquals(3.toFloat(), z[0, 1])
-        assertEquals(6.toFloat(), z[1, 0])
-        assertEquals(11.toFloat(), z[1, 1])
+        assertEqualsOverride(2.toFloat(), z[0, 0])
+        assertEqualsOverride(3.toFloat(), z[0, 1])
+        assertEqualsOverride(6.toFloat(), z[1, 0])
+        assertEqualsOverride(11.toFloat(), z[1, 1])
     }
 
     @Test
@@ -294,10 +294,10 @@ class FloatMatrixTest {
         val x = FloatMatrix(2, 2, (-1).toFloat())
         x.setArray(floatArrayOf(0.toFloat(), 1.toFloat(), 2.toFloat(), 3.toFloat()))
 
-        assertEquals(0.toFloat(), x[0, 0])
-        assertEquals(1.toFloat(), x[0, 1])
-        assertEquals(2.toFloat(), x[1, 0])
-        assertEquals(3.toFloat(), x[1, 1])
+        assertEqualsOverride(0.toFloat(), x[0, 0])
+        assertEqualsOverride(1.toFloat(), x[0, 1])
+        assertEqualsOverride(2.toFloat(), x[1, 0])
+        assertEqualsOverride(3.toFloat(), x[1, 1])
     }
 
     @Test
@@ -329,4 +329,6 @@ class FloatMatrixTest {
     } catch (e: Exception) {
         //OK
     }
+
+    fun assertEqualsOverride(expected: Float, was: Float) = assertEquals(expected, was)
 }

@@ -13,6 +13,11 @@ add_library(keigen
         src/main/native/FloatMatrix.cpp
         src/main/native/Shared.cpp
         build/generated/source/keigen/main/native/LongMatrix.cpp
+        build/generated/source/keigen/main/native/IntMatrix.cpp
+        build/generated/source/keigen/main/native/DoubleMatrix.cpp
+        build/generated/source/keigen/main/native/ShortMatrix.cpp
+        build/generated/source/keigen/main/native/ByteMatrix.cpp
+        build/generated/source/keigen/main/native/CharMatrix.cpp
         )
 
 target_include_directories(keigen

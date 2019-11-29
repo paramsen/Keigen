@@ -10,29 +10,29 @@ import org.junit.Test
  * @author Pär Amsen 11/2019
  */
 @Suppress("MemberVisibilityCanBePrivate")
-class MatrixTest {
+class FloatMatrixTest {
     @Test
     fun plus() {
-        val x = FloatMatrix(2, 2, 1f)
-        val y = FloatMatrix(2, 2, 2.5f)
+        val x = FloatMatrix(2, 2, 1.toFloat())
+        val y = FloatMatrix(2, 2, 2.toFloat())
 
         val z = x + y
 
-        assertEquals(z[0, 0], 3.5f)
+        assertEquals(z[0, 0], 3.toFloat())
         assertOutOfPlaceOperation(x, y, z)
     }
 
     @Test
     fun plusAssign() {
-        val x = FloatMatrix(2, 2, 1f)
+        val x = FloatMatrix(2, 2, 1.toFloat())
         val xPointer = x.nativePointer
-        val y = FloatMatrix(2, 2, 2f)
+        val y = FloatMatrix(2, 2, 2.toFloat())
         val yPointer = y.nativePointer
 
         x += y
 
-        assertEquals(x[0, 0], 3f)
-        assertEquals(y[0, 0], 2f)
+        assertEquals(x[0, 0], 3.toFloat())
+        assertEquals(y[0, 0], 2.toFloat())
         assertInPlaceOperation(xPointer, x)
         assertInPlaceOperation(yPointer, y)
     }
@@ -47,25 +47,25 @@ class MatrixTest {
     }
     @Test
     fun minus() {
-        val x = FloatMatrix(2, 2, 1f)
-        val y = FloatMatrix(2, 2, 2.5f)
+        val x = FloatMatrix(2, 2, 1.toFloat())
+        val y = FloatMatrix(2, 2, 2.toFloat())
 
         val z = x - y
 
-        forRowCol(z) { i, j -> assertEquals(-1.5f, z[i, j])}
+        forRowCol(z) { i, j -> assertEquals((-1).toFloat(), z[i, j])}
         assertOutOfPlaceOperation(x, y, z)
     }
 
     @Test
     fun minusAssign() {
-        val x = FloatMatrix(2, 2, 1f)
+        val x = FloatMatrix(2, 2, 1.toFloat())
         val xPointer = x.nativePointer
-        val y = FloatMatrix(2, 2, 2f)
+        val y = FloatMatrix(2, 2, 2.toFloat())
         val yPointer = y.nativePointer
 
         x -= y
 
-        forRowCol(x) { i, j -> assertEquals(-1f, x[i, j])}
+        forRowCol(x) { i, j -> assertEquals((-1).toFloat(), x[i, j])}
 
         assertInPlaceOperation(xPointer, x)
         assertInPlaceOperation(yPointer, y)
@@ -73,12 +73,12 @@ class MatrixTest {
 
     @Test
     fun times() {
-        val x = FloatMatrix(2, 4, 1f)
-        val y = FloatMatrix(4, 3, 2f)
+        val x = FloatMatrix(2, 4, 1.toFloat())
+        val y = FloatMatrix(4, 3, 2.toFloat())
 
         val z = x * y
 
-        forRowCol(z) { i, j -> assertEquals(z[i, j], 8f)}
+        forRowCol(z) { i, j -> assertEquals(z[i, j], 8.toFloat())}
         assertOutOfPlaceOperation(x, y, z)
     }
 
@@ -88,14 +88,14 @@ class MatrixTest {
      */
     @Test
     fun timesAssignOutOfPlace() {
-        val x = FloatMatrix(2, 4, 1f)
+        val x = FloatMatrix(2, 4, 1.toFloat())
         val xPointer = x.nativePointer
-        val y = FloatMatrix(4, 3, 2f)
+        val y = FloatMatrix(4, 3, 2.toFloat())
         val yPointer = y.nativePointer
 
         x *= y
 
-        forRowCol(x) { i, j -> assertEquals(x[i, j], 8f)}
+        forRowCol(x) { i, j -> assertEquals(x[i, j], 8.toFloat())}
 
         assertOutOfPlaceOperation(xPointer, x)
         assertInPlaceOperation(yPointer, y)
@@ -104,14 +104,14 @@ class MatrixTest {
     /** Where rows and cols are equal, the product fit at the same native address safely. */
     @Test
     fun timesAssignInPlace() {
-        val x = FloatMatrix(4, 4, 1f)
+        val x = FloatMatrix(4, 4, 1.toFloat())
         val xPointer = x.nativePointer
-        val y = FloatMatrix(4, 4, 2f)
+        val y = FloatMatrix(4, 4, 2.toFloat())
         val yPointer = y.nativePointer
 
         x *= y
 
-        forRowCol(x) { i, j -> assertEquals(x[i, j], 8f) }
+        forRowCol(x) { i, j -> assertEquals(x[i, j], 8.toFloat()) }
 
         assertInPlaceOperation(xPointer, x)
         assertInPlaceOperation(yPointer, y)
@@ -119,16 +119,16 @@ class MatrixTest {
 
     @Test
     fun multiplyIntoDst() {
-        val x = FloatMatrix(2, 4, 1f)
+        val x = FloatMatrix(2, 4, 1.toFloat())
         val xPointer = x.nativePointer
-        val y = FloatMatrix(4, 2, 2f)
+        val y = FloatMatrix(4, 2, 2.toFloat())
         val yPointer = y.nativePointer
-        val z = FloatMatrix(2, 2, 0f)
+        val z = FloatMatrix(2, 2, 0.toFloat())
         val zPointer = z.nativePointer
 
         x.multiplyIntoDst(y, z)
 
-        forRowCol(z) { i, j -> assertEquals(z[i, j], 8f) }
+        forRowCol(z) { i, j -> assertEquals(z[i, j], 8.toFloat()) }
 
         assertInPlaceOperation(xPointer, x)
         assertInPlaceOperation(yPointer, y)
@@ -137,53 +137,53 @@ class MatrixTest {
 
     @Test
     fun timesScalar() {
-        val x = FloatMatrix(2, 2, 2f)
+        val x = FloatMatrix(2, 2, 2.toFloat())
 
-        val y = x * 2f
+        val y = x * 2.toFloat()
 
-        forRowCol(y) { i, j -> assertEquals(y[i, j], 4f) }
+        forRowCol(y) { i, j -> assertEquals(y[i, j], 4.toFloat()) }
 
         assertOutOfPlaceOperation(x, y)
     }
 
     @Test
     fun timesAssignScalar() {
-        val x = FloatMatrix(2, 2, 2f)
+        val x = FloatMatrix(2, 2, 2.toFloat())
         val xPointer = x.nativePointer
 
-        x *= 2f
+        x *= 2.toFloat()
 
-        forRowCol(x) { i, j -> assertEquals(x[i, j], 4f) }
+        forRowCol(x) { i, j -> assertEquals(x[i, j], 4.toFloat()) }
 
         assertInPlaceOperation(xPointer, x)
     }
 
     @Test
     fun divScalar() {
-        val x = FloatMatrix(2, 2, 5f)
+        val x = FloatMatrix(2, 2, 4.toFloat())
 
-        val y = x / 2f
+        val y = x / 2.toFloat()
 
-        forRowCol(y) { i, j -> assertEquals(y[i, j], 2.5f) }
+        forRowCol(y) { i, j -> assertEquals(y[i, j], 2.toFloat()) }
 
         assertOutOfPlaceOperation(x, y)
     }
 
     @Test
     fun divAssignScalar() {
-        val x = FloatMatrix(2, 2, 5f)
+        val x = FloatMatrix(2, 2, 4.toFloat())
         val xPointer = x.nativePointer
 
-        x /= 2f
+        x /= 2.toFloat()
 
-        forRowCol(x) { i, j -> assertEquals(x[i, j], 2.5f) }
+        forRowCol(x) { i, j -> assertEquals(x[i, j], 2.toFloat()) }
 
         assertInPlaceOperation(xPointer, x)
     }
 
     @Test
     fun transpose() {
-        val data = floatArrayOf(0f, 1f, 2f, 3f, 4f, 5f)
+        val data = floatArrayOf(0.toFloat(), 1.toFloat(), 2.toFloat(), 3.toFloat(), 4.toFloat(), 5.toFloat())
         val x = FloatMatrix(2, 3, data)
 
         val y = x.transpose()
@@ -194,7 +194,7 @@ class MatrixTest {
 
     @Test
     fun transposeInPlace() {
-        val data = floatArrayOf(0f, 1f, 2f, 3f, 4f, 5f)
+        val data = floatArrayOf(0.toFloat(), 1.toFloat(), 2.toFloat(), 3.toFloat(), 4.toFloat(), 5.toFloat())
         val x = FloatMatrix(2, 3, data)
         val xPointer = x.nativePointer
         val y = FloatMatrix(2, 3, data)
@@ -207,10 +207,10 @@ class MatrixTest {
 
     @Test
     fun get() {
-        val x = FloatMatrix(4, 4, 1.5f)
+        val x = FloatMatrix(4, 4, 1.toFloat())
         for (i in 0 until 4) {
             for (j in 0 until 4) {
-                assertEquals(1.5f, x[i, j])
+                assertEquals(1.toFloat(), x[i, j])
             }
         }
     }
@@ -218,16 +218,16 @@ class MatrixTest {
     @Test
     fun set() {
         val x = FloatMatrix(4, 4)
-        x[0, 0] = 2f
-        x[1, 2] = 5f
+        x[0, 0] = 2.toFloat()
+        x[1, 2] = 5.toFloat()
 
-        assertEquals(2f, x[0, 0])
-        assertEquals(5f, x[1, 2])
+        assertEquals(2.toFloat(), x[0, 0])
+        assertEquals(5.toFloat(), x[1, 2])
     }
 
     @Test
     fun initFill() {
-        val fill = 2.5f
+        val fill = 2.toFloat()
         val m = FloatMatrix(2, 2, fill)
 
         forRowCol(m) { i, j -> assertEquals(fill, m[i, j])}
@@ -238,33 +238,33 @@ class MatrixTest {
         val data = FloatArray(9) { it.toFloat() }
         val m = FloatMatrix(3, 3, data)
 
-        forRowCol(m) { i, j -> assertEquals(3f * i + j, m[i, j]) }
+        forRowCol(m) { i, j -> assertEquals(3.toFloat() * i + j, m[i, j]) }
     }
 
     @Test
     fun initWithDataAndPlus() {
-        val data = floatArrayOf(0f, 1f, 2f, 3f)
+        val data = floatArrayOf(0.toFloat(), 1.toFloat(), 2.toFloat(), 3.toFloat())
         val x = FloatMatrix(2, 2, data)
         val y = FloatMatrix(2, 2, data)
         val z = x + y
 
-        assertEquals(0f, z[0, 0])
-        assertEquals(2f, z[0, 1])
-        assertEquals(4f, z[1, 0])
-        assertEquals(6f, z[1, 1])
+        assertEquals(0.toFloat(), z[0, 0])
+        assertEquals(2.toFloat(), z[0, 1])
+        assertEquals(4.toFloat(), z[1, 0])
+        assertEquals(6.toFloat(), z[1, 1])
     }
 
     @Test
     fun initWithDataAndMultiply() {
-        val data = floatArrayOf(0f, 1f, 2f, 3f)
+        val data = floatArrayOf(0.toFloat(), 1.toFloat(), 2.toFloat(), 3.toFloat())
         val x = FloatMatrix(2, 2, data)
         val y = FloatMatrix(2, 2, data)
         val z = x * y
 
-        assertEquals(2f, z[0, 0])
-        assertEquals(3f, z[0, 1])
-        assertEquals(6f, z[1, 0])
-        assertEquals(11f, z[1, 1])
+        assertEquals(2.toFloat(), z[0, 0])
+        assertEquals(3.toFloat(), z[0, 1])
+        assertEquals(6.toFloat(), z[1, 0])
+        assertEquals(11.toFloat(), z[1, 1])
     }
 
     @Test
@@ -291,13 +291,13 @@ class MatrixTest {
 
     @Test
     fun setArray() {
-        val x = FloatMatrix(2, 2, -1f)
-        x.setArray(floatArrayOf(0f, 1f, 2f, 3f))
+        val x = FloatMatrix(2, 2, (-1).toFloat())
+        x.setArray(floatArrayOf(0.toFloat(), 1.toFloat(), 2.toFloat(), 3.toFloat()))
 
-        assertEquals(0f, x[0, 0])
-        assertEquals(1f, x[0, 1])
-        assertEquals(2f, x[1, 0])
-        assertEquals(3f, x[1, 1])
+        assertEquals(0.toFloat(), x[0, 0])
+        assertEquals(1.toFloat(), x[0, 1])
+        assertEquals(2.toFloat(), x[1, 0])
+        assertEquals(3.toFloat(), x[1, 1])
     }
 
     @Test

@@ -12,7 +12,7 @@ add_library(keigen
         SHARED
         src/main/native/FloatMatrix.cpp
         src/main/native/Shared.cpp
-#        build/generated/source/keigen/main/native/LongMatrix.cpp
+        build/generated/source/keigen/main/native/LongMatrix.cpp
         )
 
 target_include_directories(keigen

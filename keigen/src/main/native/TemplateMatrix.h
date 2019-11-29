@@ -20,7 +20,7 @@ namespace Keigen {
     using Matrix = Map<Eigen::Matrix<Scalar, Dynamic, Dynamic>, 0, Stride>;
 
     template<typename Scalar>
-    Matrix<Scalar> *initializeFill(jint rows, jint cols, jfloat fill) {
+    Matrix<Scalar> *initializeFill(jint rows, jint cols, Scalar fill) {
         auto *data = new Scalar[rows * cols];
 
         //TODO find put where std::fill reside and use it
@@ -41,7 +41,7 @@ namespace Keigen {
     Matrix<Scalar> *matrixPlus(jlong pointerA, jlong pointerB) {
         auto a = *((Matrix<Scalar> *) pointerA);
         auto b = *((Matrix<Scalar> *) pointerB);
-        auto data = new float[(a.rows()) * (a.cols())]{0};
+        auto data = new Scalar[(a.rows()) * (a.cols())]{0};
         auto c = new Matrix<Scalar>(data, a.rows(), a.cols(), Stride(1, a.cols()));
         *c = a + b;
 
@@ -59,7 +59,7 @@ namespace Keigen {
     Matrix<Scalar> *matrixMinus(jlong pointerA, jlong pointerB) {
         auto a = *((Matrix<Scalar> *) pointerA);
         auto b = *((Matrix<Scalar> *) pointerB);
-        auto data = new float[(a.rows()) * (a.cols())]{0};
+        auto data = new Scalar[(a.rows()) * (a.cols())]{0};
         auto c = new Matrix<Scalar>(data, a.rows(), a.cols(), Stride(1, a.cols()));
         *c = a - b;
 
@@ -77,7 +77,7 @@ namespace Keigen {
     Matrix<Scalar> *matrixTimes(jlong pointerA, jlong pointerB) {
         auto a = *((Matrix<Scalar> *) pointerA);
         auto b = *((Matrix<Scalar> *) pointerB);
-        auto data = new float[(a.rows()) * (b.cols())]{0};
+        auto data = new Scalar[(a.rows()) * (b.cols())]{0};
         auto c = new Matrix<Scalar>(data, a.rows(), b.cols(), Stride(1, b.cols()));
         *c = a * b; //a temp var might be introduced here (?) https://eigen.tuxfamily.org/dox/group__TopicAliasing.html
         return c;
@@ -101,7 +101,7 @@ namespace Keigen {
     template<typename Scalar>
     Matrix<Scalar> *matrixTimesScalar(jlong pointerA, Scalar scalar) {
         auto a = *((Matrix<Scalar> *) pointerA);
-        auto data = new float[(a.rows()) * (a.cols())]{0};
+        auto data = new Scalar[(a.rows()) * (a.cols())]{0};
         auto c = new Matrix<Scalar>(data, a.rows(), a.cols(), Stride(1, a.cols()));
         *c = a * scalar;
 
@@ -117,7 +117,7 @@ namespace Keigen {
     template<typename Scalar>
     Matrix<Scalar> *matrixDivScalar(jlong pointerA, Scalar scalar) {
         auto a = *((Matrix<Scalar> *) pointerA);
-        auto data = new float[(a.rows()) * (a.cols())]{0};
+        auto data = new Scalar[(a.rows()) * (a.cols())]{0};
         auto c = new Matrix<Scalar>(data, a.rows(), a.cols(), Stride(1, a.cols()));
         *c = a / scalar;
 
@@ -133,7 +133,7 @@ namespace Keigen {
     template<typename Scalar>
     Matrix<Scalar> *matrixTranspose(jlong pointer) {
         auto src = *((Matrix<Scalar> *) pointer);
-        auto data = new float[(src.rows()) * (src.cols())]{0};
+        auto data = new Scalar[(src.rows()) * (src.cols())]{0};
         auto dst = new Matrix<Scalar>(data, src.cols(), src.rows(), Stride(1, src.rows()));
         *dst = src.transpose();
 
@@ -146,34 +146,28 @@ namespace Keigen {
     }
 
     template<typename Scalar>
-    void set(jlong pointer, jint row, jint col, jfloat value) {
+    void set(jlong pointer, jint row, jint col, Scalar value) {
         (*((Matrix<Scalar> *) pointer))(row, col) = value;
     }
 
     template<typename Scalar>
-    void getArray(JNIEnv *env, jlong pointer, jfloatArray jDst) {
+    void getArray(jlong pointer, Scalar *dst) {
         auto m = *((Matrix<Scalar> *) pointer);
-        float *src = &(m)(0, 0);
-        float *dst = env->GetFloatArrayElements(jDst, nullptr);
-        int length = env->GetArrayLength(jDst);
-        memcpy(dst, src, sizeof(float) * length);
-        env->ReleaseFloatArrayElements(jDst, dst, 0);
+        Scalar *src = &(m)(0, 0);
+        memcpy(dst, src, sizeof(Scalar) * m.rows() * m.cols());
     }
 
     template<typename Scalar>
-    void setArray(JNIEnv *env, jlong pointer, jfloatArray jSrc) {
+    void setArray(jlong pointer, Scalar *src) {
         auto m = *((Matrix<Scalar> *) pointer);
-        float *dst = &(m)(0, 0);
-        float *src = env->GetFloatArrayElements(jSrc, nullptr);
-        int length = env->GetArrayLength(jSrc);
-        memcpy(dst, src, sizeof(float) * length);
-        env->ReleaseFloatArrayElements(jSrc, src, 0);
+        Scalar *dst = &(m)(0, 0);
+        memcpy(dst, src, sizeof(Scalar) * m.rows() * m.cols());
     }
 
     template<typename Scalar>
     void dispose(jlong pointer) {
         auto m = ((Matrix<Scalar> *) pointer);
-        float *data = &(*m)(0, 0);
+        Scalar *data = &(*m)(0, 0);
         delete (m);
         delete (data);
     }

@@ -9,3 +9,4 @@
 /library/src/main/native/kissfft
 /*.apk
 keigen/.cxx/
+keigen/src/androidTest/java/com/paramsen/keigen/*MatrixTest.kt

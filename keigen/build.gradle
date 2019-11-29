@@ -56,6 +56,8 @@ android {
     sourceSets.main.java.srcDir new File("keigen/build/generated/source/keigen/main/")
 
     task testGen {
+        println "${sourceSets}"
+
         def input = new File("keigen/src/main/java/com/paramsen/keigen/FloatMatrix.kt")
 
         def outDir = new File("keigen/build/generated/source/keigen/main/com/paramsen/keigen/")
@@ -113,10 +115,11 @@ android {
     }
 
     task testGen2 {
-        def input = new File("keigen/src/main/native/FloatMatrix.cpp")
-        def outDir = new File("keigen/build/generated/source/keigen/main/native")
+        def input = new File("keigen/src/androidTest/java/com/paramsen/keigen/FloatMatrixTest.kt")
+        def outDir = new File("keigen/src/androidTest/java/com/paramsen/keigen/")
+
         outDir.mkdirs()
-        def output = new File(outDir, "LongMatrix.cpp")
+        def output = new File(outDir, "LongMatrixTest.kt")
         output.createNewFile()
 
         def reader = new DataInputStream(new BufferedInputStream(new FileInputStream(input))).newReader()
@@ -139,10 +142,38 @@ android {
         println "Generated 2"
     }
 
+    task testGen3 {
+        def input = new File("keigen/src/main/native/FloatMatrix.cpp")
+        def outDir = new File("keigen/build/generated/source/keigen/main/native")
+        outDir.mkdirs()
+        def output = new File(outDir, "LongMatrix.cpp")
+        output.createNewFile()
+
+        def reader = new DataInputStream(new BufferedInputStream(new FileInputStream(input))).newReader()
+        def builder = new StringBuilder()
+        def next
+
+        while ((next = reader.readLine()) != null) {
+            builder.append(next).append("\n")
+        }
+
+        def base = builder.toString()
+        base = base.replace("Float", "Long")
+        base = base.replace("jfloat JAVA_TYPE", "jlong JAVA_TYPE")
+        base = base.replace("jfloatArray JAVA_TYPE_ARRAY", "jlongArray JAVA_TYPE_ARRAY")
+        base = base.replace("float CPP_TYPE", "int64_t CPP_TYPE")
+
+        def writer = new DataOutputStream(new BufferedOutputStream(new FileOutputStream(output))).newWriter()
+
+        writer.write(base)
+        writer.flush()
+
+        println "Generated 3"
+    }
+
     idea {
         module {
             generatedSourceDirs += files('build/generated/source/keigen/main/')
-            sourceDirs += files('build/generated/source/keigen/main/')
         }
     }
 

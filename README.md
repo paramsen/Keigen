@@ -10,7 +10,7 @@ Most common matrix-to-matrix and matrix-to-scalar operations are implemented. Al
 operators are covered `+, -, *`, get by row/col `val x = matrix[row, col]`, set by row/col 
 `matrix[row, col] = 2`, transpose, raw data array initialize/get/set `FloatMatrix(rows, cols, aFloatArray)`.
 
-## Simple and expressive api with Kotlin operator overloads
+## Simple and expressive with Kotlin operator overloads
 
 **DoubleMatrix, FloatMatrix, LongMatrix, IntMatrix, ShortMatrix, ByteMatrix.** All Matrix types 
 support the same functionality and has the same unit test coverage.  

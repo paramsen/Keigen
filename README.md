@@ -80,6 +80,13 @@ noted that the Kotlin interface isn't implemented using generics because the exa
 known at the JNI bridge (and due to type erasure in Java/Kotlin, the exact type of a generic 
 variable cannot be inferred).
 
+### Licensing
+
+Keigen is licensed under the permissive [APL-2.0][keigen_license].  
+
+The included parts of Eigen is licensed under the permissive [MPL-2.0][eigen_license], the `EIGEN_MPL2_ONLY`
+flag is used in the project as described in the link.
+
 ### Artwork
 
 The artwork combines the scholar owl in the Eigen artwork and the Kotlin logo colors. In Keigen,
@@ -89,3 +96,5 @@ with _a_ matrix.
 _The artwork is made by me._
 
 [eigen_site]: http://eigen.tuxfamily.org/dox/GettingStarted.html
+[eigen_license]: https://gitlab.com/libeigen/eigen/blob/master/COPYING.README
+[keigen_license]: https://github.com/paramsen/Keigen/blob/master/LICENSE

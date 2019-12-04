@@ -6,7 +6,6 @@
 /build
 /captures
 .externalNativeBuild
-/library/src/main/native/Eigen
 /*.apk
 library/.cxx/
 library/src/androidTest/java/com/paramsen/keigen/*MatrixTest.kt

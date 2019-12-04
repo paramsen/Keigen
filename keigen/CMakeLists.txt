@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 3.4.1)
 
 set(sourceDir ${CMAKE_CURRENT_SOURCE_DIR})
 
+message("Source dir: ${sourceDir}")
+
 if(CMAKE_BUILD_TYPE STREQUAL Debug)
     message("DEBUG")
     set(debug 1)

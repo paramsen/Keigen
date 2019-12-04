@@ -5,7 +5,7 @@ apply plugin: 'idea'
 
 group = 'com.github.paramsen'
 
-def VERSION_NAME = "1.1"
+def VERSION_NAME = "1.2"
 def VERSION_CODE = 1
 
 version = VERSION_NAME
@@ -36,11 +36,13 @@ void generateFile(File src, File dst, Map<String, String> replaceKeyWithValue) {
     println "Generated ${dst}"
 }
 
-def generatedOutDir = new File("keigen/build/generated/source/keigen/main/com/paramsen/keigen/")
+def baseDir = project(':keigen').projectDir.absolutePath
+
+def generatedOutDir = new File(baseDir, "build/generated/source/keigen/main/com/paramsen/keigen/")
 generatedOutDir.mkdirs()
-def generatedAndroidTestOutDir = new File("keigen/src/androidTest/java/com/paramsen/keigen/")
+def generatedAndroidTestOutDir = new File(baseDir, "src/androidTest/java/com/paramsen/keigen/")
 generatedAndroidTestOutDir.mkdirs()
-def generatedNativeOutDir = new File("keigen/build/generated/source/keigen/main/native")
+def generatedNativeOutDir = new File(baseDir, "build/generated/source/keigen/main/native")
 generatedNativeOutDir.mkdirs()
 
 android {
@@ -89,19 +91,19 @@ android {
     sourceSets.main.java.srcDir new File("keigen/build/generated/source/keigen/main/")
 
     task generateByteType {
-        def input = new File("keigen/src/main/java/com/paramsen/keigen/FloatMatrix.kt")
+        def input = new File(baseDir, "src/main/java/com/paramsen/keigen/FloatMatrix.kt")
         def output = new File(generatedOutDir, "ByteMatrix.kt")
         generateFile(input, output, [ "Float": "Byte",  "toFloat": "toByte"])
 
-        input = new File("keigen/src/main/java/com/paramsen/keigen/KeigenNativeBridgeFloat.kt")
+        input = new File(baseDir, "src/main/java/com/paramsen/keigen/KeigenNativeBridgeFloat.kt")
         output = new File(generatedOutDir, "KeigenNativeBridgeByte.kt")
         generateFile(input, output, [ "Float": "Byte"])
 
-        input = new File("keigen/src/androidTest/java/com/paramsen/keigen/FloatMatrixTest.kt")
+        input = new File(baseDir, "src/androidTest/java/com/paramsen/keigen/FloatMatrixTest.kt")
         output = new File(generatedAndroidTestOutDir, "ByteMatrixTest.kt")
         generateFile(input, output, [ "Float": "Byte", "float": "byte"])
 
-        input = new File("keigen/src/main/native/FloatMatrix.cpp")
+        input = new File(baseDir, "src/main/native/FloatMatrix.cpp")
         output = new File(generatedNativeOutDir, "ByteMatrix.cpp")
         generateFile(input, output, [ "Float": "Byte",
                                       "jfloat JAVA_TYPE": "jbyte JAVA_TYPE",
@@ -110,19 +112,19 @@ android {
     }
 
     task generateShortType {
-        def input = new File("keigen/src/main/java/com/paramsen/keigen/FloatMatrix.kt")
+        def input = new File(baseDir, "src/main/java/com/paramsen/keigen/FloatMatrix.kt")
         def output = new File(generatedOutDir, "ShortMatrix.kt")
         generateFile(input, output, [ "Float": "Short",  "toFloat": "toShort"])
 
-        input = new File("keigen/src/main/java/com/paramsen/keigen/KeigenNativeBridgeFloat.kt")
+        input = new File(baseDir, "src/main/java/com/paramsen/keigen/KeigenNativeBridgeFloat.kt")
         output = new File(generatedOutDir, "KeigenNativeBridgeShort.kt")
         generateFile(input, output, [ "Float": "Short"])
 
-        input = new File("keigen/src/androidTest/java/com/paramsen/keigen/FloatMatrixTest.kt")
+        input = new File(baseDir, "src/androidTest/java/com/paramsen/keigen/FloatMatrixTest.kt")
         output = new File(generatedAndroidTestOutDir, "ShortMatrixTest.kt")
         generateFile(input, output, [ "Float": "Short", "float": "short"])
 
-        input = new File("keigen/src/main/native/FloatMatrix.cpp")
+        input = new File(baseDir, "src/main/native/FloatMatrix.cpp")
         output = new File(generatedNativeOutDir, "ShortMatrix.cpp")
         generateFile(input, output, [ "Float": "Short",
                                       "jfloat JAVA_TYPE": "jshort JAVA_TYPE",
@@ -131,19 +133,19 @@ android {
     }
 
     task generateIntType {
-        def input = new File("keigen/src/main/java/com/paramsen/keigen/FloatMatrix.kt")
+        def input = new File(baseDir, "src/main/java/com/paramsen/keigen/FloatMatrix.kt")
         def output = new File(generatedOutDir, "IntMatrix.kt")
         generateFile(input, output, [ "Float": "Int",  "toFloat": "toInt"])
 
-        input = new File("keigen/src/main/java/com/paramsen/keigen/KeigenNativeBridgeFloat.kt")
+        input = new File(baseDir, "src/main/java/com/paramsen/keigen/KeigenNativeBridgeFloat.kt")
         output = new File(generatedOutDir, "KeigenNativeBridgeInt.kt")
         generateFile(input, output, [ "Float": "Int"])
 
-        input = new File("keigen/src/androidTest/java/com/paramsen/keigen/FloatMatrixTest.kt")
+        input = new File(baseDir, "src/androidTest/java/com/paramsen/keigen/FloatMatrixTest.kt")
         output = new File(generatedAndroidTestOutDir, "IntMatrixTest.kt")
         generateFile(input, output, [ "Float": "Int", "float": "int"])
 
-        input = new File("keigen/src/main/native/FloatMatrix.cpp")
+        input = new File(baseDir, "src/main/native/FloatMatrix.cpp")
         output = new File(generatedNativeOutDir, "IntMatrix.cpp")
         generateFile(input, output, [ "Float": "Int",
                              "jfloat JAVA_TYPE": "jint JAVA_TYPE",
@@ -152,19 +154,19 @@ android {
     }
 
     task generateLongType {
-        def input = new File("keigen/src/main/java/com/paramsen/keigen/FloatMatrix.kt")
+        def input = new File(baseDir, "src/main/java/com/paramsen/keigen/FloatMatrix.kt")
         def output = new File(generatedOutDir, "LongMatrix.kt")
         generateFile(input, output, [ "Float": "Long",  "toFloat": "toLong"])
 
-        input = new File("keigen/src/main/java/com/paramsen/keigen/KeigenNativeBridgeFloat.kt")
+        input = new File(baseDir, "src/main/java/com/paramsen/keigen/KeigenNativeBridgeFloat.kt")
         output = new File(generatedOutDir, "KeigenNativeBridgeLong.kt")
         generateFile(input, output, [ "Float": "Long"])
 
-        input = new File("keigen/src/androidTest/java/com/paramsen/keigen/FloatMatrixTest.kt")
+        input = new File(baseDir, "src/androidTest/java/com/paramsen/keigen/FloatMatrixTest.kt")
         output = new File(generatedAndroidTestOutDir, "LongMatrixTest.kt")
         generateFile(input, output, [ "Float": "Long", "float": "long"])
 
-        input = new File("keigen/src/main/native/FloatMatrix.cpp")
+        input = new File(baseDir, "src/main/native/FloatMatrix.cpp")
         output = new File(generatedNativeOutDir, "LongMatrix.cpp")
         generateFile(input, output, [ "Float": "Long",
                                       "jfloat JAVA_TYPE": "jlong JAVA_TYPE",
@@ -173,21 +175,21 @@ android {
     }
 
     task generateDoubleType {
-        def input = new File("keigen/src/main/java/com/paramsen/keigen/FloatMatrix.kt")
+        def input = new File(baseDir, "src/main/java/com/paramsen/keigen/FloatMatrix.kt")
         def output = new File(generatedOutDir, "DoubleMatrix.kt")
         generateFile(input, output, [ "Float": "Double",  "toFloat": "toDouble"])
 
-        input = new File("keigen/src/main/java/com/paramsen/keigen/KeigenNativeBridgeFloat.kt")
+        input = new File(baseDir, "src/main/java/com/paramsen/keigen/KeigenNativeBridgeFloat.kt")
         output = new File(generatedOutDir, "KeigenNativeBridgeDouble.kt")
         generateFile(input, output, [ "Float": "Double"])
 
-        input = new File("keigen/src/androidTest/java/com/paramsen/keigen/FloatMatrixTest.kt")
+        input = new File(baseDir, "src/androidTest/java/com/paramsen/keigen/FloatMatrixTest.kt")
         output = new File(generatedAndroidTestOutDir, "DoubleMatrixTest.kt")
         generateFile(input, output, [ "Float": "Double",
                                       "float": "double",
                                     "expected, was": "expected, was, 0.000001"])
 
-        input = new File("keigen/src/main/native/FloatMatrix.cpp")
+        input = new File(baseDir, "src/main/native/FloatMatrix.cpp")
         output = new File(generatedNativeOutDir, "DoubleMatrix.cpp")
         generateFile(input, output, [ "Float": "Double",
                              "jfloat JAVA_TYPE": "jdouble JAVA_TYPE",
@@ -203,7 +205,7 @@ android {
 
     /* verify that kissfft is initialized */
     task verifyEigenInitialized {
-        if(!(new File("keigen/src/main/native/Eigen/Eigen").exists()))
+        if(!(new File(baseDir, "src/main/native/Eigen/Eigen").exists()))
             throw new Exception('Initialize git submodules before building (read "development" section in readme)')
     }
 

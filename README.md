@@ -1,10 +1,12 @@
 # Keigen
 
+[![Release](https://jitpack.io/v/paramsen/keigen.svg)](https://jitpack.io/#paramsen/keigen)
+
 _Keigen is a Kotlin (Android) library for fast matrix operations and linear algebra built on a C++ foundation._  
 
 ![Keygen artwork](https://raw.githubusercontent.com/paramsen/Keigen/master/artwork.png)
 
-Keigen is an Kotlin wrapper for Eigen, a linear algebra library written in C++.  
+Keigen is a Kotlin wrapper for [Eigen][eigen_site], a linear algebra library written in C++.  
 
 Most common matrix-to-matrix and matrix-to-scalar operations are implemented. All arithmetic 
 operators are covered `+, -, *`, get by row/col `val x = matrix[row, col]`, set by row/col 
@@ -68,7 +70,7 @@ support the same functionality and has the same unit test coverage.
 
 `val matrixB = matrixA.transpose()`  
 
-**Matrix class code generation**  
+### Matrix class code generation  
 
 All Kotlin Matrix classes are generated from the FloatMatrix base implementation. The unit tests are 
 also generated from the FloatMatrixTest class, which means that each Matrix type has full test coverage.  
@@ -85,3 +87,5 @@ the owl has obviously found a new cool style, heavily inspired by The Matrix - n
 with _a_ matrix.  
 
 _The artwork is made by me._
+
+[eigen_site]: http://eigen.tuxfamily.org/dox/GettingStarted.html

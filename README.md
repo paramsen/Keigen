@@ -15,11 +15,11 @@ operators are covered `+, -, *`, get by row/col `val x = matrix[row, col]`, set 
 **DoubleMatrix, FloatMatrix, LongMatrix, IntMatrix, ShortMatrix, ByteMatrix.** All Matrix types 
 support the same functionality and has the same unit test coverage.
 
-## Simple and expressive api with Kotlin operator overloads
+**Simple and expressive api with Kotlin operator overloads**  
 
 `val matrixD = matrixA * 2 * matrixB + matrixC`
 
-## Matrix to matrix operations
+**Matrix to matrix operations**  
 
 `matrixC = matrixA + matrixB`
 `matrixC = matrixA - matrixB`
@@ -29,7 +29,7 @@ support the same functionality and has the same unit test coverage.
 `matrixA -= matrixB`
 `matrixA *= matrixB`
 
-## Matrix to scalar operations
+**Matrix to scalar operations**  
 
 `matrixC = matrixA + 2f`
 `matrixC = matrixA - 2f`
@@ -41,21 +41,21 @@ support the same functionality and has the same unit test coverage.
 `matrixA *= 2f`
 `matrixA /= 2f`
 
-## Matrix get by index and array
+**Matrix get by index and array**  
 
 `val x = matrix[1, 3]`
 `val floatArray = matrix.getData()`
 
-## Matrix set by index and array
+**Matrix set by index and array**  
 
 `matrix[1, 3] = 5L`
 `matrix.setData(aLongArray)`
 
-## Other matrix operations
+**Other matrix operations**  
 
 `val matrixB = matrixA.transpose()`
 
-## Matrix class code generation
+**Matrix class code generation**  
 
 All Kotlin Matrix classes are generated from the FloatMatrix base implementation. The unit tests are 
 also generated from the FloatMatrixTest class, which means that each Matrix type has full test coverage.  

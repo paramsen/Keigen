@@ -5,8 +5,8 @@ apply plugin: 'idea'
 
 group = 'com.github.paramsen'
 
-def VERSION_NAME = "2.0.0"
-def VERSION_CODE = 7
+def VERSION_NAME = "1.0"
+def VERSION_CODE = 1
 
 version = VERSION_NAME
 

@@ -10,6 +10,21 @@ Most common matrix-to-matrix and matrix-to-scalar operations are implemented. Al
 operators are covered `+, -, *`, get by row/col `val x = matrix[row, col]`, set by row/col 
 `matrix[row, col] = 2`, transpose, raw data array initialize/get/set `FloatMatrix(rows, cols, aFloatArray)`.
 
+## Get started
+
+Add jitpack.io repo to your root `build.gradle`:
+    
+    allprojects {
+        repositories {
+            //...
+            maven { url "https://jitpack.io" }
+        }
+    }
+
+Include in Android project:
+
+    implementation 'com.github.paramsen:keigen:1.0'
+
 ## Simple and expressive with Kotlin operator overloads
 
 **DoubleMatrix, FloatMatrix, LongMatrix, IntMatrix, ShortMatrix, ByteMatrix.** All Matrix types 

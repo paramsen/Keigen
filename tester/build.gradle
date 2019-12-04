@@ -38,5 +38,5 @@ dependencies {
         exclude group: 'com.google.code.findbugs', module: 'jsr305'
     }
 
-    implementation project (':keigen')
+    implementation project (':library')
 }

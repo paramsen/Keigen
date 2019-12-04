@@ -17,43 +17,43 @@ support the same functionality and has the same unit test coverage.
 
 **Simple and expressive api with Kotlin operator overloads**  
 
-`val matrixD = matrixA * 2 * matrixB + matrixC`
+`val matrixD = matrixA * 2 * matrixB + matrixC`  
 
 **Matrix to matrix operations**  
 
-`matrixC = matrixA + matrixB`
-`matrixC = matrixA - matrixB`
+`matrixC = matrixA + matrixB`  
+`matrixC = matrixA - matrixB`  
 `matrixC = matrixA * matrixB`  
 
-`matrixA += matrixB`
-`matrixA -= matrixB`
-`matrixA *= matrixB`
+`matrixA += matrixB`  
+`matrixA -= matrixB`  
+`matrixA *= matrixB`  
 
 **Matrix to scalar operations**  
 
-`matrixC = matrixA + 2f`
-`matrixC = matrixA - 2f`
-`matrixC = matrixA * 2f`
+`matrixC = matrixA + 2f`  
+`matrixC = matrixA - 2f`  
+`matrixC = matrixA * 2f`  
 `matrixC = matrixA / 2f`  
 
-`matrixA += 2f`
-`matrixA -= 2f`
-`matrixA *= 2f`
-`matrixA /= 2f`
+`matrixA += 2f`  
+`matrixA -= 2f`  
+`matrixA *= 2f`  
+`matrixA /= 2f`  
 
 **Matrix get by index and array**  
 
-`val x = matrix[1, 3]`
-`val floatArray = matrix.getData()`
+`val x = matrix[1, 3]`  
+`val floatArray = matrix.getData()`  
 
 **Matrix set by index and array**  
 
-`matrix[1, 3] = 5L`
-`matrix.setData(aLongArray)`
+`matrix[1, 3] = 5L`  
+`matrix.setData(aLongArray)`  
 
 **Other matrix operations**  
 
-`val matrixB = matrixA.transpose()`
+`val matrixB = matrixA.transpose()`  
 
 **Matrix class code generation**  
 

@@ -80,12 +80,36 @@ noted that the Kotlin interface isn't implemented using generics because the exa
 known at the JNI bridge (and due to type erasure in Java/Kotlin, the exact type of a generic 
 variable cannot be inferred).
 
-### Licensing
+## Development
+
+#### Setup
+
+Eigen is not directly included within this git repository, it's in a git module and is pulled 
+from Eigens repository on demand.
+
+To setup Eigen:
+
+1. Run `git submodule init; git submodule update` in project root
+2. Check that Eigen exists in `keigen/src/main/native/Eigen`
+
+#### Release
+
+There's a Gradle task that generates the README.md from template and git tags the current commit
+with the version number. JitPack builds on push of the tag.
+
+Release steps are:
+
+1. Bump version in `noise/build.gradle`
+2. Run `./gradlew release` in project root (generates readme)
+3. Push generated readme changes to repo
+4. Wait for JitPack to build
+
+## Licenses
 
 Keigen is licensed under the permissive [APL-2.0][keigen_license].  
 
-The included parts of Eigen is licensed under the permissive [MPL-2.0][eigen_license], the `EIGEN_MPL2_ONLY`
-flag is used in the project as described in the link.
+The included parts of Eigen (included as-is) are licensed under the permissive 
+[MPL-2.0][eigen_license], the `EIGEN_MPL2_ONLY` flag is used in the project as described in the link.
 
 ### Artwork
 

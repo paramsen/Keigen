@@ -1,19 +1,74 @@
 # Keigen
 
-_Keigen is a Kotlin (Android) library for fast matrix operations and linear algebra built on a C++ foundation._
+_Keigen is a Kotlin (Android) library for fast matrix operations and linear algebra built on a C++ foundation._  
 
 ![Keygen artwork](https://raw.githubusercontent.com/paramsen/Keigen/master/artwork.png)
 
-Keigen is an Kotlin wrapper for Eigen, a linear algebra library written in C++.
+Keigen is an Kotlin wrapper for Eigen, a linear algebra library written in C++.  
 
-Keigen is still just on the drawing table, and might stay there for all eternity. Despite that, the
-Matrix class is supporting all normal matrix-to-matrix and matrix-to-scalar operations. All
-arithmetic operators are covered (+, -, *, /), get by square brackets [row, col], set by square
-brackets, transpose, raw data array get/set etc. 
+Most common matrix-to-matrix and matrix-to-scalar operations are implemented. All arithmetic 
+operators are covered `+, -, *`, get by row/col `val x = matrix[row, col]`, set by row/col 
+`matrix[row, col] = 2`, transpose, raw data array initialize/get/set `FloatMatrix(rows, cols, aFloatArray)`.
+
+## All sensible types supported
+
+**DoubleMatrix, FloatMatrix, LongMatrix, IntMatrix, ShortMatrix, ByteMatrix.** All Matrix types 
+support the same functionality and has the same unit test coverage.
+
+## Simple and expressive api with Kotlin operator overloads
+
+`val matrixD = matrixA * 2 * matrixB + matrixC`
+
+## Matrix to matrix operations
+
+`matrixC = matrixA + matrixB`
+`matrixC = matrixA - matrixB`
+`matrixC = matrixA * matrixB`  
+
+`matrixA += matrixB`
+`matrixA -= matrixB`
+`matrixA *= matrixB`
+
+## Matrix to scalar operations
+
+`matrixC = matrixA + 2f`
+`matrixC = matrixA - 2f`
+`matrixC = matrixA * 2f`
+`matrixC = matrixA / 2f`  
+
+`matrixA += 2f`
+`matrixA -= 2f`
+`matrixA *= 2f`
+`matrixA /= 2f`
+
+## Matrix get by index and array
+
+`val x = matrix[1, 3]`
+`val floatArray = matrix.getData()`
+
+## Matrix set by index and array
+
+`matrix[1, 3] = 5L`
+`matrix.setData(aLongArray)`
+
+## Other matrix operations
+
+`val matrixB = matrixA.transpose()`
+
+## Matrix class code generation
+
+All Kotlin Matrix classes are generated from the FloatMatrix base implementation. The unit tests are 
+also generated from the FloatMatrixTest class, which means that each Matrix type has full test coverage.  
+
+The C++ interface for Eigen is implemented using generics (or templates in C++ lingo). It should be 
+noted that the Kotlin interface isn't implemented using generics because the exact types need to be
+known at the JNI bridge (and due to type erasure in Java/Kotlin, the exact type of a generic 
+variable cannot be inferred).
 
 ### Artwork
 
 The artwork combines the scholar owl in the Eigen artwork and the Kotlin logo colors. In Keigen,
 the owl has obviously found a new cool style, heavily inspired by The Matrix - not to be confused
 with _a_ matrix.  
+
 _The artwork is made by me._

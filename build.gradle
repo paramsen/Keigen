@@ -36,7 +36,7 @@ task readme {
             builder.append(next).append("\n")
         }
 
-        def version = project(':library').version
+        def version = project(':keigen').version
         def template = builder.toString().replace("{{version}}", version)
 
         def writer = new DataOutputStream(new BufferedOutputStream(new FileOutputStream(output))).newWriter()
@@ -52,10 +52,10 @@ task release(dependsOn: [":readme"]) {
     doLast {
         exec {
             executable 'git'
-            args 'tag', '-a', "${project(':library').version}", '-m', "Release ${project(':library').version}"
+            args 'tag', '-a', "${project(':keigen').version}", '-m', "Release ${project(':keigen').version}"
         }
 
-        println("Successfully tagged new release (${project(':library').version}).")
+        println("Successfully tagged new release (${project(':keigen').version}).")
         println("Push manually!")
     }
 }

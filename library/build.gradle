@@ -205,7 +205,7 @@ android {
 
     /* verify that kissfft is initialized */
     task verifyEigenInitialized {
-        if(!(new File("src/main/native/Eigen/Eigen").exists()))
+        if(!(new File(baseDir, "src/main/native/Eigen/Eigen").exists()))
             throw new Exception('Initialize git submodules before building (read "development" section in readme)')
     }
 

@@ -5,7 +5,7 @@ apply plugin: 'idea'
 
 group = 'com.github.paramsen'
 
-def VERSION_NAME = "1.5.4"
+def VERSION_NAME = "1.5.3"
 def VERSION_CODE = 1
 
 version = VERSION_NAME
@@ -205,9 +205,8 @@ android {
 
     /* verify that kissfft is initialized */
     task verifyEigenInitialized {
-        def eigenDir = new File(baseDir, "src/main/native/Eigen/Eigen")
-        if(!eigenDir.exists())
-            throw new Exception("Initialize git submodules before building (read Development section in readme) (location: ${eigenDir.absolutePath})")
+        if(!(new File(baseDir, "src/main/native/Eigen/Eigen").exists()))
+            throw new Exception('Initialize git submodules before building (read "development" section in readme)')
     }
 
     /* jitpack.io conf */

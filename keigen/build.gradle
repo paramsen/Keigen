@@ -86,12 +86,12 @@ android {
     sourceSets.main.java.srcDir new File("keigen/build/generated/source/keigen/main/")
 
     project.afterEvaluate {
-        externalNativeBuildRelease.dependsOn createGeneratedSourceDirs
-        externalNativeBuildRelease.dependsOn generateByteType
-        externalNativeBuildRelease.dependsOn generateShortType
-        externalNativeBuildRelease.dependsOn generateIntType
-        externalNativeBuildRelease.dependsOn generateLongType
-        externalNativeBuildRelease.dependsOn generateDoubleType
+        preBuild.dependsOn createGeneratedSourceDirs
+        preBuild.dependsOn generateByteType
+        preBuild.dependsOn generateShortType
+        preBuild.dependsOn generateIntType
+        preBuild.dependsOn generateLongType
+        preBuild.dependsOn generateDoubleType
     }
 
     task createGeneratedSourceDirs {

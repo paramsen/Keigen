@@ -32,7 +32,15 @@ Include in Android project:
 **DoubleMatrix, FloatMatrix, LongMatrix, IntMatrix, ShortMatrix, ByteMatrix.** All Matrix types 
 support the same functionality and has the same unit test coverage.  
 
-`val matrixD = matrixA * 2 * matrixB + matrixC`  
+**Matrix instantiation**  
+
+2 by 3 matrix filled with 0s `val a = LongMatrix(2, 3)`  
+2 by 3 matrix filled with 1s `val a = FloatMatrix(2, 3, 1f)`  
+
+256 by 512 matrix from array data:  
+  
+    val data = ShortArray(256 * 512) { it.toShort() }
+    val a = ShortMatrix(256, 512, data)
 
 **Matrix to matrix operations**  
 

@@ -10,10 +10,6 @@ class FloatMatrix {
     var rows: Int = -1
     var cols: Int = -1
 
-    init {
-        KeigenNativeBridgeShared.loadNativeLibrary()
-    }
-
     private constructor(@IntRange(from = 1) rows: Int, @IntRange(from = 1) cols: Int, nativePointer: NativePointer) {
         this.nativePointer = nativePointer
         this.rows = rows
@@ -181,6 +177,12 @@ class FloatMatrix {
         companion object {
             private const val NULL_PTR = 0L
             fun nullPtr() = NativePointer(NULL_PTR)
+        }
+    }
+
+    companion object {
+        init {
+            KeigenNativeBridgeShared.loadNativeLibrary()
         }
     }
 }

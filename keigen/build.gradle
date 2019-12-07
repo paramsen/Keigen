@@ -5,7 +5,7 @@ apply plugin: 'idea'
 
 group = 'com.github.paramsen'
 
-def VERSION_NAME = "1.5.6"
+def VERSION_NAME = "1.5.7"
 def VERSION_CODE = 1
 
 version = VERSION_NAME
@@ -32,8 +32,6 @@ void generateFile(File src, File dst, Map<String, String> replaceKeyWithValue) {
 
     writer.write(base)
     writer.flush()
-
-    println "Generated ${dst}"
 }
 
 def baseDir = project(':keigen').projectDir.absolutePath
@@ -94,7 +92,6 @@ android {
         externalNativeBuildRelease.dependsOn generateIntType
         externalNativeBuildRelease.dependsOn generateLongType
         externalNativeBuildRelease.dependsOn generateDoubleType
-
     }
 
     task createGeneratedSourceDirs {
@@ -102,6 +99,10 @@ android {
             generatedOutDir.mkdirs()
             generatedAndroidTestOutDir.mkdirs()
             generatedNativeOutDir.mkdirs()
+
+            println "generatedOutDir ${generatedOutDir}"
+            println "generatedAndroidTestOutDir ${generatedAndroidTestOutDir}"
+            println "generatedNativeOutDir ${generatedNativeOutDir}"
         }
     }
 
@@ -125,6 +126,8 @@ android {
                                          "jfloat JAVA_TYPE"           : "jbyte JAVA_TYPE",
                                          "jfloatArray JAVA_TYPE_ARRAY": "jbyteArray JAVA_TYPE_ARRAY",
                                          "float CPP_TYPE"             : "int8_t CPP_TYPE"])
+
+            println "Generated sources"
         }
     }
 
@@ -148,6 +151,8 @@ android {
                                          "jfloat JAVA_TYPE"           : "jshort JAVA_TYPE",
                                          "jfloatArray JAVA_TYPE_ARRAY": "jshortArray JAVA_TYPE_ARRAY",
                                          "float CPP_TYPE"             : "int16_t CPP_TYPE"])
+
+            println "Generated sources"
         }
     }
 
@@ -171,6 +176,8 @@ android {
                                          "jfloat JAVA_TYPE"           : "jint JAVA_TYPE",
                                          "jfloatArray JAVA_TYPE_ARRAY": "jintArray JAVA_TYPE_ARRAY",
                                          "float CPP_TYPE"             : "int32_t CPP_TYPE"])
+
+            println "Generated sources"
         }
     }
 
@@ -194,6 +201,8 @@ android {
                                          "jfloat JAVA_TYPE"           : "jlong JAVA_TYPE",
                                          "jfloatArray JAVA_TYPE_ARRAY": "jlongArray JAVA_TYPE_ARRAY",
                                          "float CPP_TYPE"             : "int64_t CPP_TYPE"])
+
+            println "Generated sources"
         }
     }
 
@@ -219,6 +228,8 @@ android {
                                          "jfloat JAVA_TYPE"           : "jdouble JAVA_TYPE",
                                          "jfloatArray JAVA_TYPE_ARRAY": "jdoubleArray JAVA_TYPE_ARRAY",
                                          "float CPP_TYPE"             : "double CPP_TYPE"])
+
+            println "Generated sources"
         }
     }
 

@@ -25,7 +25,7 @@ Add jitpack.io repo to your root `build.gradle`:
 
 Include in Android project:
 
-    implementation 'com.github.paramsen:keigen:1.5.6'
+    implementation 'com.github.paramsen:keigen:1.5.8'
 
 ## Simple and expressive with Kotlin operator overloads
 

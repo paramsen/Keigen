@@ -41,6 +41,12 @@ support the same functionality and has the same unit test coverage.
   
     val data = ShortArray(256 * 512) { it.toShort() }
     val a = ShortMatrix(256, 512, data)
+    
+**IMPORTANT (!) Matrix destruction**  
+
+All Matrix types has to be destructed when not in use anymore by calling `matrix.dispose()`. This is
+a side effect of building this library on top of the C++ library Eigen, all Matrix types has references
+to native allocations that need to be freed to not result in memory leaks.
 
 **Matrix to matrix operations**  
 
